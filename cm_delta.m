@@ -1,3 +1,5 @@
+function C_m_delta = cm_delta()
+
 %cm_delta determination
 Vre = Vreducedequivalent(); %reduced equivalent airspeed
 flightdata = load('FTISxprt-20180306_082856.mat');

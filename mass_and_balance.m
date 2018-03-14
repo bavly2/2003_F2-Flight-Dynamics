@@ -29,13 +29,18 @@ ramp_mass = ZFM + fuel;
 cg_ramp_mass = (ZFM*cg_ZFM + fuel*cg_fuel)/ramp_mass;
 mac_LE = 6.644;
 
-
+%t1 time step where cm_delta measurment procedure starts (person in seat 10 moves up
+%to between seats 1&2)
+t1 = 31445;
+%t2 time step where cm_delta measurment procedure ends (person moves back
+%to seat 10)
+t2 = 32189;
 
 weight = [];
 cg_data= [];
 
 %cg shift and weight change due to fuel burned
-for n = 1:31444
+for n = 1:t1-1
     w = ramp_mass - ((Fuel_flow_lh(n)* 0.453592)+(Fuel_flow_rh(n)* 0.453592));
     weight = [weight, w];
     cg = (ZFM*cg_ZFM + ((fuel-((Fuel_flow_lh(n)* 0.453592)+(Fuel_flow_rh(n)* 0.453592)))*cg_fuel))/w - mac_LE ;
@@ -43,7 +48,7 @@ for n = 1:31444
 end
 %cg shift due to C_m_delta measurement procedure and fuel burned weight
 %change due to fuel burned
-    for n = 31445:32188
+    for n = t1:t2
         w = ramp_mass - ((Fuel_flow_lh(n)* 0.453592)+(Fuel_flow_rh(n)* 0.453592));
         weight = [weight, w];
         cg = (ZFM*cg_ZFM_test + ((fuel-((Fuel_flow_lh(n)* 0.453592)+(Fuel_flow_rh(n)* 0.453592)))*cg_fuel))/w - mac_LE;
@@ -51,7 +56,7 @@ end
     end
     
 %cg shift and weight change due to fuel burned
-    for n = 32189:48681
+    for n = t2+1:48681
             w = ramp_mass - ((Fuel_flow_lh(n)* 0.453592)+(Fuel_flow_rh(n)* 0.453592));
             weight = [weight, w];
             cg = (ZFM*cg_ZFM + ((fuel-((Fuel_flow_lh(n)* 0.453592)+(Fuel_flow_rh(n)* 0.453592)))*cg_fuel))/w - mac_LE;
