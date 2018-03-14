@@ -18,11 +18,11 @@ b=15.911; %m
 A=b^2/S;
 %Aerodynamic coefficients
 Cd0=0.04;
-Clalpha=0.0895;
+Clalpha=0.1229;
 e=0.8;
 
 Wi=ZFM;%Initial weight
-alpha0=-0.995531; %NEED CHANGE
+alpha0=-0.994304; %NEED CHANGE
 
 alphalst=a.flightdata.vane_AOA.data; %{'Angle of attack'}
 Hlst=a.flightdata.Dadc1_alt.data;%{'Pressure Altitude (1013.25 mB)'}
