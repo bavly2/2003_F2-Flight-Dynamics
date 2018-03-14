@@ -1,5 +1,8 @@
+function [weight, cg_data] = mass_and_balance();
+
 %load flight data and save needed parameters for mass and balance
 %determination
+c = 2.0569;
 a = load('FTISxprt-20180306_082856');
 Fuel_flow_lh = a.flightdata.lh_engine_FU.data ;
 Fuel_flow_rh = a.flightdata.rh_engine_FU.data ;
@@ -66,15 +69,15 @@ weight = weight (:);
 
 %plot cg shift and weight change of the ac during flight test
 figure
-plot(time, weight)
-xlabel('time step')
-ylabel('aircraft weight in kg')
+plot(time, weight);
+xlabel('time step');
+ylabel('aircraft weight in kg');
 title('aircraft weight change during test flight');
 
 figure
 plot(time, cg_data);
-xlabel('time step')
-ylabel('X_cg as % of the mac')
+xlabel('time step');
+ylabel('X_cg as % of the mac');
 title('cg shift during test flight');
 
 
