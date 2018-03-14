@@ -1,7 +1,17 @@
+%load flight data and save needed parameters for mass and balance
+%determination
 a = load('FTISxprt-20180306_082856');
+Fuel_flow_lh = a.flightdata.lh_engine_FU.data ;
+Fuel_flow_rh = a.flightdata.rh_engine_FU.data ;
+time = a.flightdata.time.data ;
+
+%input parameters (passenger weights and their designated seats staring with seat 1)
 dist =[131,170,214,251,288];
 d = dist*0.0254;
 P = [95,82,67,71,75,76,78,80,104.5];
+
+
+%determination of cg_datum under ramp_mass condition
 BEM = 4157.174;
 cg_BEM = 7.421;
 payload = sum(P);
@@ -14,44 +24,58 @@ fuel = 1814.369;
 cg_fuel = 7.253;
 ramp_mass = ZFM + fuel;
 cg_ramp_mass = (ZFM*cg_ZFM + fuel*cg_fuel)/ramp_mass;
+mac_LE = 6.644;
 
-Fuel_flow_lh = a.flightdata.lh_engine_FU.data ;
-Fuel_flow_rh = a.flightdata.rh_engine_FU.data ;
-time = a.flightdata.time.data ;
 
 
 weight = [];
 cg_data= [];
 
-for n = 1:19999
-    W = ramp_mass - ((Fuel_flow_lh(n)* 0.453592)+(Fuel_flow_rh(n)* 0.453592));
-    weight = [weight, W];
-    cg = (ZFM*cg_ZFM + ((fuel-((Fuel_flow_lh(n)* 0.453592)+(Fuel_flow_rh(n)* 0.453592)))*cg_fuel))/W;
+%cg shift and weight change due to fuel burned
+for n = 1:31444
+    w = ramp_mass - ((Fuel_flow_lh(n)* 0.453592)+(Fuel_flow_rh(n)* 0.453592));
+    weight = [weight, w];
+    cg = (ZFM*cg_ZFM + ((fuel-((Fuel_flow_lh(n)* 0.453592)+(Fuel_flow_rh(n)* 0.453592)))*cg_fuel))/w - mac_LE ;
     cg_data = [cg_data, cg];
 end
-    for n = 20000:21000
-        W = ramp_mass - ((Fuel_flow_lh(n)* 0.453592)+(Fuel_flow_rh(n)* 0.453592));
-        weight = [weight, W];
-        cg = (ZFM*cg_ZFM_test + ((fuel-((Fuel_flow_lh(n)* 0.453592)+(Fuel_flow_rh(n)* 0.453592)))*cg_fuel))/W;
+%cg shift due to C_m_delta measurement procedure and fuel burned weight
+%change due to fuel burned
+    for n = 31445:32188
+        w = ramp_mass - ((Fuel_flow_lh(n)* 0.453592)+(Fuel_flow_rh(n)* 0.453592));
+        weight = [weight, w];
+        cg = (ZFM*cg_ZFM_test + ((fuel-((Fuel_flow_lh(n)* 0.453592)+(Fuel_flow_rh(n)* 0.453592)))*cg_fuel))/w - mac_LE;
         cg_data = [cg_data, cg];
     end
-    for n = 21001:48681
-            W = ramp_mass - ((Fuel_flow_lh(n)* 0.453592)+(Fuel_flow_rh(n)* 0.453592));
-            weight = [weight, W];
-            cg = (ZFM*cg_ZFM + ((fuel-((Fuel_flow_lh(n)* 0.453592)+(Fuel_flow_rh(n)* 0.453592)))*cg_fuel))/W;
+    
+%cg shift and weight change due to fuel burned
+    for n = 32189:48681
+            w = ramp_mass - ((Fuel_flow_lh(n)* 0.453592)+(Fuel_flow_rh(n)* 0.453592));
+            weight = [weight, w];
+            cg = (ZFM*cg_ZFM + ((fuel-((Fuel_flow_lh(n)* 0.453592)+(Fuel_flow_rh(n)* 0.453592)))*cg_fuel))/w - mac_LE;
             cg_data = [cg_data, cg];
     
     end
 
-  
+
+%cg as % of mac
 cg_data = cg_data * 100/c;
 
-
+%save in list
 time = time(:);
 weight = weight (:);
 
-plot(time, weight);
+%plot cg shift and weight change of the ac during flight test
+figure
+plot(time, weight)
+xlabel('time step')
+ylabel('aircraft weight in kg')
+title('aircraft weight change during test flight');
+
+figure
 plot(time, cg_data);
+xlabel('time step')
+ylabel('X_cg as % of the mac')
+title('cg shift during test flight');
 
 
 
