@@ -67,18 +67,18 @@ cg_data = cg_data * 100/c;
 time = time(:);
 weight = weight (:);
 
-%plot cg shift and weight change of the ac during flight test
-figure
-plot(time, weight);
-xlabel('time step');
-ylabel('aircraft weight in kg');
-title('aircraft weight change during test flight');
-
-figure
-plot(time, cg_data);
-xlabel('time step');
-ylabel('X_cg as % of the mac');
-title('cg shift during test flight');
+% %plot cg shift and weight change of the ac during flight test
+% figure
+% plot(time, weight);
+% xlabel('time step');
+% ylabel('aircraft weight in kg');
+% title('aircraft weight change during test flight');
+% 
+% figure
+% plot(time, cg_data);
+% xlabel('time step');
+% ylabel('X_cg as % of the mac');
+% title('cg shift during test flight');
 
 
 
