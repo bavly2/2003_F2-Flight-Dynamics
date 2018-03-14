@@ -27,7 +27,15 @@ alpha0=-0.994304; %NEED CHANGE
 alphalst=a.flightdata.vane_AOA.data; %{'Angle of attack'}
 Hlst=a.flightdata.Dadc1_alt.data;%{'Pressure Altitude (1013.25 mB)'}
 Vtaslst=a.flightdata.Dadc1_tas.data;
-Wfuelusedlst=a.flightdata.lh_engine_FU.data+a.flightdata.rh_engine_FU.data;
+
+Wfuelusedlst=[];
+Wfuelused=0;
+for i=1:48681
+    Wfuelused=Wfuelused+0.45359237*(a.flightdata.lh_engine_FU.data(i)+a.flightdata.rh_engine_FU.data(i));
+    Wfuelusedlst=[Wfuelusedlst,Wfuelused];
+end
+Wfuelusedlst=Wfuelusedlst.';
+
 Tlst=a.flightdata.Dadc1_sat.data;
 
 alpha0lst=alpha0*ones(48681,1);
