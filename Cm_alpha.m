@@ -1,3 +1,4 @@
+function C_m_alpha = cm_alpha()
 %Constants
 Ws = 60500; %Standard weight in N
 rho0 = 1.225; %Sealevel air density  in Kg/m^3
@@ -11,12 +12,13 @@ time = flightdata.time.data;
 
 %Specify at which time stationary measurements are calculated
 hrs = [0, 0, 0, 0, 0, 0]; %Dummy data
-min = [44, 45, 46, 47, 48, 49]; %Dummy data
-sec = hrs*3600+min*60;
+min = [38, 39, 40, 41, 42, 43]; %Dummy data
+sec = [0, 0, 0, 0, 0, 0]; %Dummy data
+total_sec = hrs*3600+min*60+sec;
 
-tind = zeros(1,length(sec));
-for i = 1:length(sec)
-    tind(i) = find(time>sec(i),1);
+tind = zeros(1,length(total_sec));
+for i = 1:length(total_sec)
+    tind(i) = find(time>total_sec(i),1);
 end
 
 %Step 1: Retrieve elev deflection from test data and calculate reduced elevator
@@ -28,42 +30,47 @@ delta_e = flightdata.delta_e.data;
 delta_e_eq = delta_e; %PLACEHOLDER 
 
 CmTc = -0.0064; %Dimensionless thrust arm
+Cm_delta = cm_delta();
+%Tcs = 
+%Tc =
 %delta_e_eq = delta_e - CmTc/Cm_delta*(Tcs-Tc)
 
 %Step 2: Retrieve reduced equivalen airspeed.
 
 Vre = Vreducedequivalent();
 
-Vre_plot = Vre(tind);
-delta_e_plot = delta_e_eq(tind);
+Vre_points = Vre(tind);
+delta_e_points = delta_e_eq(tind);
 
 %Plot reduced elevator deflection with reduced equivalent airspeed
 
 %Sort x-axis data (Vre) and reorder y-axis data in same manner 
-[Vre_plot_sorted, Vre_plot_order] = sort(Vre_plot);
-delta_e_plot_sorted = delta_e_plot(Vre_plot_order);
+[Vre_points_sorted, Vre_points_order] = sort(Vre_points);
+delta_e_points_sorted = delta_e_points(Vre_points_order);
 
 %Make figure and plot
 figure
-plot(Vre_plot_sorted,delta_e_plot_sorted,'-o')
+plot(Vre_points_sorted,delta_e_points_sorted,'-o')
 set(gca,'YDir','reverse')
 xlabel('Reduced equivalent airspeed [m/s]');
 ylabel('Equivalent elevator deflection [degree]');
 title('Reduced elevator deflection related to reduced equivalent airspeed');
 
 %Plot reduced elevator deflection with angle of attack
-CLa = 5.084;
+CLa = (5.084);
 
-amina0_plot = Ws/(0.5*rho0*Vre_plot.^2*S*CLa);
+amina0_points = Ws*(0.5*rho0*Vre_points.^2*S*CLa).^-1;
 
-[amina0_plot_sorted, amina0_plot_order] = sort(amina0_plot);
-delta_e_plot_sorted = delta_e_plot(amina0_plot_order);
+[amina0_points_sorted, amina0_points_order] = sort(amina0_points);
+delta_e_points_sorted = delta_e_points(amina0_points_order);
 
 figure
-plot(amina0_plot_sorted,delta_e_plot_sorted,'-o')
+plot(amina0_points_sorted,delta_e_points_sorted,'-o')
 set(gca,'YDir','reverse')
 xlabel('Angle of attack minus zero lift angle of attack [degree]');
 ylabel('Reduced elevator deflection [degree]');
 title('Reduced elevator deflection related to reduced equivalent airspeed');
 
+slope = (delta_e_points_sorted(end)-delta_e_points_sorted(1))/(amina0_points_sorted(end)-amina0_points_sorted(1));
+C_m_alpha = -Cm_delta*slope;
 
