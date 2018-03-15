@@ -45,12 +45,7 @@ Da = 0;
 
 sysasym = ss(Aa,Ba,Ca,Da);
 
-eigenvaluessym = eig(As)
-eigenvaluesasym = eig(Aa)
+% eigenvaluessym = eig(As)
+% eigenvaluesasym = eig(Aa)
 
-paltitude = 69640; %Pa
-machn = 0.6; 
-Tdifference = 2; %K
-mfright = 0.7; %kg/s
-mfleft = 0.7; %kg/s
 
