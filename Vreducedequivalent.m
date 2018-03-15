@@ -1,4 +1,4 @@
-function Vre = Vreducedequivalent()
+function [Vre, Ve] = Vreducedequivalent()
 %Retrieve flightdata
 flightdata = load('FTISxprt-20180306_082856.mat');
 flightdata = flightdata.flightdata;

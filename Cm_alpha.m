@@ -37,7 +37,7 @@ Cm_delta = cm_delta();
 
 %Step 2: Retrieve reduced equivalen airspeed.
 
-Vre = Vreducedequivalent();
+[Vre, ~] = Vreducedequivalent();
 
 Vre_points = Vre(tind);
 delta_e_points = delta_e_eq(tind);
