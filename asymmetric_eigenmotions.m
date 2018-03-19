@@ -71,8 +71,7 @@ u_AR = [ delta_e(t_ind(3):(t_ind(3)+t_lengths(3)-1))'; delta_r(t_ind(3):(t_ind(3
 u_SPI = [ delta_e(t_ind(4):(t_ind(4)+t_lengths(4)-1))'; delta_r(t_ind(4):(t_ind(4)+t_lengths(4)-1))' ];
 
 
-plot(t_sample_SPI/10, u_SPI(1, :));
-ylabel('Deflection in radians')
-xlabel('time in s')
-legend('Aileron','Rudder')
-title('Dutch Roll')        
+% plot(t_sample_SPI/10, u_SPI);
+% ylabel('Deflection in radians')
+% xlabel('time in s')
+% legend('Aileron','Rudder')      
