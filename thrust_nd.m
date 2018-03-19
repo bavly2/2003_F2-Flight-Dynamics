@@ -13,10 +13,10 @@ V = [Vred(t1),Vred(t2),Vred(t3),Vred(t4),Vred(t5),Vred(t6),Vred(t7)];
 dTc = [];
 
 for i = 1:2:n
-    Tcl = Tp(i)/(rho0*V1(0.5*(i+1))^2*D^2);
-    Tcr = Tp(i+1)/(rho0*V1(0.5*(i+1))^2*D^2);
-    Tcsl = Tps(i)/(rho0*V1(0.5*(i+1))^2*D^2);
-    Tcsr = Tps(i+1)/(rho0*V1(0.5*(i+1))^2*D^2);
+    Tcl = Tp(i)/(rho0*V(0.5*(i+1))^2*D^2);
+    Tcr = Tp(i+1)/(rho0*V(0.5*(i+1))^2*D^2);
+    Tcsl = Tps(i)/(rho0*V(0.5*(i+1))^2*D^2);
+    Tcsr = Tps(i+1)/(rho0*V(0.5*(i+1))^2*D^2);
     dTc = [dTc,(Tcsl+Tcsr)-(Tcl+Tcr)];
 %     fprintf(file_Tc,formatSpec,[Tcl;Tcr]);
 %     fprintf(file_Tcs,formatSpec,[Tcsl;Tcsr]);
