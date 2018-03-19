@@ -33,20 +33,16 @@ for i = t3:(t3+29.1*10)
     V3 = [V3,Vred(i)] ;
 end
 
-Tc1 = [];
-Tc2 = [];
-Tc3 = [];
-Tcs1 = [];
-Tcs2 = [];
-Tcs3 = [];
+dTc1 = [];
+dTc2 = [];
+dTc3 = [];
 
 for i = 1:2:n1
     Tcl = Tp1(i)/(rho0*V1(0.5*(i+1))^2*D^2);
     Tcr = Tp1(i+1)/(rho0*V1(0.5*(i+1))^2*D^2);
     Tcsl = Tps1(i)/(rho0*V1(0.5*(i+1))^2*D^2);
     Tcsr = Tps1(i+1)/(rho0*V1(0.5*(i+1))^2*D^2);
-    Tc1 = [Tc1,(Tcl+Tcr)];
-    Tcs1 = [Tcs1,(Tcsl+Tcsr)];
+    dTc1 = [dTc1,(Tcsl+Tcsr)-(Tcl+Tcr)];
 %     fprintf(file_Tc,formatSpec,[Tcl;Tcr]);
 %     fprintf(file_Tcs,formatSpec,[Tcsl;Tcsr]);
 end
@@ -55,16 +51,14 @@ for i = 1:2:n2
     Tcr = Tp2(i+1)/(rho0*V2(0.5*(i+1))^2*D^2);
     Tcsl = Tps2(i)/(rho0*V2(0.5*(i+1))^2*D^2);
     Tcsr = Tps2(i+1)/(rho0*V2(0.5*(i+1))^2*D^2);
-    Tc2 = [Tc2,(Tcl+Tcr)];
-    Tcs2 = [Tcs2,(Tcsl+Tcsr)];
+    dTc2 = [dTc2,(Tcsl+Tcsr)-(Tcl+Tcr)];
 end
 for i = 1:2:n3
     Tcl = Tp3(i)/(rho0*V3(0.5*(i+1))^2*D^2);
     Tcr = Tp3(i+1)/(rho0*V3(0.5*(i+1))^2*D^2);
     Tcsl = Tps3(i)/(rho0*V3(0.5*(i+1))^2*D^2);
     Tcsr = Tps3(i+1)/(rho0*V3(0.5*(i+1))^2*D^2);
-    Tc3 = [Tc3,(Tcl+Tcr)];
-    Tcs3 = [Tcs3,(Tcsl+Tcsr)];
+    dTc3 = [dTc3,(Tcsl+Tcsr)-(Tcl+Tcr)];
 end
 
 fclose(file_m1);
