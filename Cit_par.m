@@ -22,7 +22,7 @@ CLa    = Cl_alpha() ;            % Slope of CL-alpha curve [ ]
 % 
 
 % % Longitudinal stability
-  Cma    = Cm_alpha () ;            % longitudinal stabilty [ ]
+  [Cma, ~, ~, ~]    = Cm_alpha () ;            % longitudinal stabilty [ ]
   Cmde   = cm_delta () ;            % elevator effectiveness [ ]
 
 % Aircraft geometry

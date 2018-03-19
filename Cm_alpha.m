@@ -1,4 +1,4 @@
-function C_m_alpha = Cm_alpha()
+function [C_m_alpha, Vre_points_sorted, delta_e_points_sorted, F_e_points_sorted] = Cm_alpha()
 %Constants
 Ws = 60500; %Standard weight in N
 rho0 = 1.225; %Sealevel air density  in Kg/m^3
@@ -11,9 +11,9 @@ flightdata = flightdata.flightdata;
 time = flightdata.time.data;
 
 %Specify at which time stationary measurements are calculated
-hrs = [0, 0, 0, 0, 0, 0]; %Dummy data
-min = [38, 39, 40, 41, 42, 43]; %Dummy data
-sec = [0, 0, 0, 0, 0, 0]; %Dummy data
+hrs = [0, 0, 0, 0, 0, 0, 0]; %Dummy data
+min = [38, 39, 40, 41, 42, 43, 4]; %Dummy data
+sec = [0, 0, 0, 0, 0, 0, 0]; %Dummy data
 total_sec = hrs*3600+min*60+sec;
 
 tind = zeros(1,length(total_sec));
@@ -33,30 +33,37 @@ CmTc = -0.0064; %Dimensionless thrust arm
 Cm_delta = cm_delta();
 %Tcs = 
 %Tc =
-%delta_e_eq = delta_e - CmTc/Cm_delta*(Tcs-Tc)
+%delta_e_points = delta_e(tind)
+%delta_e_eq_points = delta_e - CmTc/Cm_delta*(Tcs-Tc)
 
-%Step 2: Retrieve reduced equivalen airspeed.
+%Step 2: Retrieve reduced elevator control force
+F_e_meas = flightdata.column_fe.data;
 
-[Vre, ~] = Vreducedequivalent();
+g0 = 9.80665; %in m/s^2
+Ws = 60500; %Standard weight in N
+[weight, ~] = mass_and_balance(); %Mass in kg
 
-Vre_points = Vre(tind);
-delta_e_points = delta_e_eq(tind);
+W = weight*g0; %Weight in N
+
+F_e_r = F_e_meas.*(Ws*W.^-1); %Reduced elevator control force
+
+F_e_points = F_e_r(tind); %Reduced elevator control force at the measuring points
+
+%Step 3: Retrieve reduced equivalent airspeed.
+
+[Vre, ~] = Vreducedequivalent(); 
+
+Vre_points = Vre(tind); %Reduced equivalent airspeed at the measuring points
+delta_e_points = delta_e_eq(tind); %Reduced elevator deflection at the measuring points
 
 %Plot reduced elevator deflection with reduced equivalent airspeed
 
 %Sort x-axis data (Vre) and reorder y-axis data in same manner 
 [Vre_points_sorted, Vre_points_order] = sort(Vre_points);
 delta_e_points_sorted = delta_e_points(Vre_points_order);
+F_e_points_sorted = F_e_points(Vre_points_order);
 
-%Make figure and plot
-%figure
-%plot(Vre_points_sorted,delta_e_points_sorted,'-o')
-% set(gca,'YDir','reverse')
-% xlabel('Reduced equivalent airspeed [m/s]');
-% ylabel('Equivalent elevator deflection [degree]');
-% title('Reduced elevator deflection related to reduced equivalent airspeed');
-
-%Plot reduced elevator deflection with angle of attack
+%Determine reduced elevator deflection with angle of attack
 CLa = Cl_alpha();
 
 amina0_points = Ws*(0.5*rho0*Vre_points.^2*S*CLa).^-1;
@@ -71,6 +78,8 @@ delta_e_points_sorted = delta_e_points(amina0_points_order);
 % ylabel('Reduced elevator deflection [degree]');
 % title('Reduced elevator deflection related to reduced equivalent airspeed');
 
+%Calculate slope of reduced elevator deflection curve with angle of attack
+%and calculate longitudinal stability (C_m_alpha)
 slope = (delta_e_points_sorted(end)-delta_e_points_sorted(1))/(amina0_points_sorted(end)-amina0_points_sorted(1));
 C_m_alpha = -Cm_delta*slope;
 
