@@ -1,8 +1,15 @@
+%Function outputs initial value vector and input vector for every
+%eigenmotion in radians. (i.e. x0_DR is the initial value vector for the Dutch Roll. u_DR is the input vector for the Dutch Roll.)
+%Input is initial time vector [mm ss] and time length in seconds for each
+%eigenmotion. (i.e. t_init_DR is initial time in [mm ss] for the Dutch Roll
+%and t_length_DR is the length of the Dutch Roll in seconds.)
+function [ x0_DR, u_DR, x0_DR_YD, u_DR_YD, x0_AR, u_AR, x0_SPI, u_SPI ] = asymmetric_eigenmotions(t_init_DR, t_length_DR, t_init_DR_YD, t_length_DR_YD, t_init_AR, t_length_AR, t_init_SPI, t_length_SPI)
+
 %Specify starting times of eigenmotions as: [mm ss]
-Dutch_Roll_init_time = [57 00];
-Dutch_Roll_YD_init_time = [57 45];
-Aper_Roll_init_time = [59 13];
-Spiral_init_time = [ 60 4];
+Dutch_Roll_init_time = t_init_DR;
+Dutch_Roll_YD_init_time = t_init_DR_YD;
+Aper_Roll_init_time = t_init_AR;
+Spiral_init_time = t_init_SPI;
 
 %Load flight test data and import parameter vectors
 flightdata = load('FTISxprt-20180306_082856.mat');
@@ -37,32 +44,35 @@ init_values = [
     r(t_ind(1)) r(t_ind(2)) r(t_ind(3)) r(t_ind(4))
     ];
 
+x0_DR = init_values(:,1);
+x0_DR_YD = init_values(:,2);
+x0_AR = init_values(:,3);
+x0_SPI = init_values(:,4);
+
 %Length of each eigenmotion in s
-t_lengths = [40 75 50 80];
+t_lengths = [t_length_DR t_length_DR_YD t_length_AR t_length_SPI];
 t_lengths = t_lengths*10;
 
 %Time vector for each eigenmotion (in cs/10Hz). First column is first
 %eigenmotion second column is second eigenmotion etc.
-t_sample_DR = 1:t_lengths(1);
-t_sample_DR_YD = 1:t_lengths(2);
-t_sample_AR = 1:t_lengths(3);
-t_sample_SPI = 1:t_lengths(4);
+%t_sample_DR = 1:t_lengths(1);
+%t_sample_DR_YD = 1:t_lengths(2);
+%t_sample_AR = 1:t_lengths(3);
+%t_sample_SPI = 1:t_lengths(4);
 
 %Retrieve inputs
 %Inputs Dutch Roll
-inputs_DR = [ delta_e(t_ind(1):(t_ind(1)+t_lengths(1)-1))'; delta_r(t_ind(1):(t_ind(1)+t_lengths(1)-1))' ]; 
+u_DR = [ delta_e(t_ind(1):(t_ind(1)+t_lengths(1)-1))'; delta_r(t_ind(1):(t_ind(1)+t_lengths(1)-1))' ]; 
 %Inputs Dutch Roll YD
-inputs_DR_YD = [ delta_e(t_ind(2):(t_ind(2)+t_lengths(2)-1))'; delta_r(t_ind(2):(t_ind(2)+t_lengths(2)-1))' ];
+u_DR_YD = [ delta_e(t_ind(2):(t_ind(2)+t_lengths(2)-1))'; delta_r(t_ind(2):(t_ind(2)+t_lengths(2)-1))' ];
 %Inputs Aperiodic Roll
-inputs_AR = [ delta_e(t_ind(3):(t_ind(3)+t_lengths(3)-1))'; delta_r(t_ind(3):(t_ind(3)+t_lengths(3)-1))' ];
+u_AR = [ delta_e(t_ind(3):(t_ind(3)+t_lengths(3)-1))'; delta_r(t_ind(3):(t_ind(3)+t_lengths(3)-1))' ];
 %Inputs Spiral
-inputs_SPI = [ delta_e(t_ind(4):(t_ind(4)+t_lengths(4)-1))'; delta_r(t_ind(4):(t_ind(4)+t_lengths(4)-1))' ];
+u_SPI = [ delta_e(t_ind(4):(t_ind(4)+t_lengths(4)-1))'; delta_r(t_ind(4):(t_ind(4)+t_lengths(4)-1))' ];
 
 
-plot(t_sample_SPI/10, inputs_SPI);
+plot(t_sample_SPI/10, u_SPI(1, :));
 ylabel('Deflection in radians')
 xlabel('time in s')
 legend('Aileron','Rudder')
-title('Dutch Roll')
-          
-          
+title('Dutch Roll')        
