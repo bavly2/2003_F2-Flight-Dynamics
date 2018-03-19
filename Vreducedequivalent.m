@@ -16,8 +16,8 @@ gamma = 1.4; %Heat capacity ratio
 hp = 0.3048*flightdata.Dadc1_alt.data; %in m
 Tm = flightdata.Dadc1_tat.data+273.15; %in K
 Vc = 0.514444444*flightdata.Dadc1_cas.data; %in m/s
-[M, ~] = mass_and_balance(); %Mass of a/c in Kg
-W = M*g0; %Weight of a/c in N
+[weight, ~] = mass_and_balance(); %Mass of a/c in Kg
+W = weight*g0; %Weight of a/c in N
 
 %Calculate pressure in Pa
 p = p0*(1+(lambda*hp)/T0).^(-g0/(lambda*R));

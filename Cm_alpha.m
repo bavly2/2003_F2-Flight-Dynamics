@@ -1,4 +1,4 @@
-function C_m_alpha = cm_alpha()
+function C_m_alpha = Cm_alpha()
 %Constants
 Ws = 60500; %Standard weight in N
 rho0 = 1.225; %Sealevel air density  in Kg/m^3
@@ -49,27 +49,27 @@ delta_e_points = delta_e_eq(tind);
 delta_e_points_sorted = delta_e_points(Vre_points_order);
 
 %Make figure and plot
-figure
-plot(Vre_points_sorted,delta_e_points_sorted,'-o')
-set(gca,'YDir','reverse')
-xlabel('Reduced equivalent airspeed [m/s]');
-ylabel('Equivalent elevator deflection [degree]');
-title('Reduced elevator deflection related to reduced equivalent airspeed');
+%figure
+%plot(Vre_points_sorted,delta_e_points_sorted,'-o')
+% set(gca,'YDir','reverse')
+% xlabel('Reduced equivalent airspeed [m/s]');
+% ylabel('Equivalent elevator deflection [degree]');
+% title('Reduced elevator deflection related to reduced equivalent airspeed');
 
 %Plot reduced elevator deflection with angle of attack
-CLa = (5.084);
+CLa = Cl_alpha();
 
 amina0_points = Ws*(0.5*rho0*Vre_points.^2*S*CLa).^-1;
 
 [amina0_points_sorted, amina0_points_order] = sort(amina0_points);
 delta_e_points_sorted = delta_e_points(amina0_points_order);
 
-figure
-plot(amina0_points_sorted,delta_e_points_sorted,'-o')
-set(gca,'YDir','reverse')
-xlabel('Angle of attack minus zero lift angle of attack [degree]');
-ylabel('Reduced elevator deflection [degree]');
-title('Reduced elevator deflection related to reduced equivalent airspeed');
+%figure
+%plot(amina0_points_sorted,delta_e_points_sorted,'-o')
+% set(gca,'YDir','reverse')
+% xlabel('Angle of attack minus zero lift angle of attack [degree]');
+% ylabel('Reduced elevator deflection [degree]');
+% title('Reduced elevator deflection related to reduced equivalent airspeed');
 
 slope = (delta_e_points_sorted(end)-delta_e_points_sorted(1))/(amina0_points_sorted(end)-amina0_points_sorted(1));
 C_m_alpha = -Cm_delta*slope;

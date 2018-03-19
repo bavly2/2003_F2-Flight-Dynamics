@@ -1,29 +1,29 @@
 % Citation 550 - Linear simulation
 a = load('FTISxprt-20180306_082856');
-xcg = cg_data;
+
+[~,xcg] = mass_and_balance();
 
 % Stationary flight condition
 
  hp0    =  a.flightdata.Dadc1_alt.data*0.3048 ;      	  % pressure altitude in the stationary flight condition [m]
  V0     =  a.flightdata.Dadc1_tas.data*0.514444 ;     % true airspeed in the stationary flight condition [m/sec]
-
  alpha0 =  degtorad(a.flightdata.vane_AOA.data)   ;   % angle of attack in the stationary flight condition [rad]
  th0    =  degtorad(a.flightdata.Ahrs1_Pitch.data) ;       	  % pitch angle in the stationary flight condition [rad]
 % 
 % % Aircraft mass
- m      = weight ;         	  % mass [kg]
+ [m,~]      = mass_and_balance() ;         	  % mass [kg]
 % 
 % % aerodynamic properties
 
-%preliminary NEED TO BE UPDATED
+%preliminary NEED TO BE UPDATED CD0 and e still missing!!!
 e      = 0.8 ;            % Oswald factor [ ]
 CD0    = 0.04 ;            % Zero lift drag coefficient [ ]
-CLa    = 5.084 ;            % Slope of CL-alpha curve [ ]
+CLa    = Cl_alpha() ;            % Slope of CL-alpha curve [ ]
 % 
 
 % % Longitudinal stability
-% Cma    = ;            % longitudinal stabilty [ ]
-  Cmde   = C_m_delta ;            % elevator effectiveness [ ]
+  Cma    = Cm_alpha () ;            % longitudinal stabilty [ ]
+  Cmde   = cm_delta () ;            % elevator effectiveness [ ]
 
 % Aircraft geometry
 
@@ -53,8 +53,9 @@ for n = 1:48681
     rho_1 = rho0*((1+(lambda*(hp0(n)/Temp0))))^(-((g/(lambda*R))+1));
     rho =[rho, rho_1];
 end
+
 rho = rho (:);                          % [kg/m^3]  (air density)
- W      = m*g;                          % [N]       (aircraft weight)
+W      = m*g;                          % [N]       (aircraft weight)
 
 
  
@@ -83,19 +84,9 @@ CNha   = 2*pi*Ah/(Ah+2);        % Stabiliser normal force slope [ ]
 depsda = 4/(A+2);               % Downwash gradient [ ]
 
 % Lift and drag coefficient
-CL = [];
-CD = [];
-for n = 1:48681
-    CL_1 = 2*W(n)/(rho(n)*V0(n)^2*S);               % Lift coefficient [ ]
-    
-    %alpha= only for stationary flight conditions can we assume all to be
-    %stationary???
-    CD_1 = CD0 + (CLa*alpha0(n))^2/(pi*A*e);  % Drag coefficient [ ]
-    CL = [CL, CL_1];
-    CD = [CD, CD_1];
-end
-CL = CL (:);
-CD = CD (:);
+[~,CL] = Cl_alpha();
+%CL = 2*W/(rho*V0^2*S);               % Lift coefficient [ ]
+%CD = CD0 + (CLa*alpha0)^2/(pi*A*e);  % Drag coefficient [ ]
 
 
 % Stabiblity derivatives
@@ -115,7 +106,7 @@ CXde   = -0.03728;
 CZ0 =[];
 for n = 1:48681
     CZ0_1    = -W(n)*cos(th0(n))/(0.5*rho(n)*V0(n)^2*S);
-    CZ0_1 = [CZ0, CZ0_1];
+    CZ0_1 = [CZ0_1, CZ0];
 end
 CZ0 = CZ0(:);
 
