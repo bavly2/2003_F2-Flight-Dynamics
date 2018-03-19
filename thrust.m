@@ -1,5 +1,6 @@
 a = load('FTISxprt-20180306_082856');
 
+run('Cit_par.m')
 
 pressure_altitude = a.flightdata.Dadc1_alt.data ; %ft
 Mach = a.flightdata.Dadc1_mach.data ; %C

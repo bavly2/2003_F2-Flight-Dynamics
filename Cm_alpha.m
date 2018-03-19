@@ -1,4 +1,6 @@
 function [C_m_alpha, Vre_points_sorted, delta_e_points_sorted, F_e_points_sorted] = Cm_alpha()
+
+
 %Constants
 Ws = 60500; %Standard weight in N
 rho0 = 1.225; %Sealevel air density  in Kg/m^3
@@ -27,14 +29,13 @@ end
 %Retrieve elevator deflection in degrees
 delta_e = flightdata.delta_e.data;
 
-delta_e_eq = delta_e; %PLACEHOLDER 
+%delta_e_eq = delta_e; %PLACEHOLDER 
 
 CmTc = -0.0064; %Dimensionless thrust arm
 Cm_delta = cm_delta();
-%Tcs = 
-%Tc =
-%delta_e_points = delta_e(tind)
-%delta_e_eq_points = delta_e - CmTc/Cm_delta*(Tcs-Tc)
+dTc = thrust_nd(tind);
+delta_e_points = delta_e(tind);
+delta_e_eq_points = delta_e - CmTc/Cm_delta*(dTc);
 
 %Step 2: Retrieve reduced elevator control force
 F_e_meas = flightdata.column_fe.data;
@@ -54,7 +55,7 @@ F_e_points = F_e_r(tind); %Reduced elevator control force at the measuring point
 [Vre, ~] = Vreducedequivalent(); 
 
 Vre_points = Vre(tind); %Reduced equivalent airspeed at the measuring points
-delta_e_points = delta_e_eq(tind); %Reduced elevator deflection at the measuring points
+delta_e_points = delta_e_eq_points; %Reduced elevator deflection at the measuring points
 
 %Plot reduced elevator deflection with reduced equivalent airspeed
 
