@@ -1,6 +1,6 @@
 function dTc = thrust_nd(tind)
 
-run('Cit_par.m')
+rho0 = 1.225; %Standard density in kg/m^3
 
 file = fopen('thrust_mETC.dat','r') ;
 file_s = fopen('thrust_mETC_s.dat','r') ;
@@ -13,7 +13,14 @@ D = 686/1000 ; %propeller diameter [m]
 
 [~, Vred] = Vreducedequivalent() ;
 n = length(Tp);
-[t1, t2, t3, t4, t5, t6, t7] = tind;
+
+t1 = tind(1);
+t2 = tind(2);
+t3 = tind(3);
+t4 = tind(4);
+t5 = tind(5);
+t6 = tind(6);
+t7 = tind(7);
 V = [Vred(t1),Vred(t2),Vred(t3),Vred(t4),Vred(t5),Vred(t6),Vred(t7)];
 dTc = [];
 
