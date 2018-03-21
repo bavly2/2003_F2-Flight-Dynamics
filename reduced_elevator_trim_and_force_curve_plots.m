@@ -8,6 +8,7 @@ xlabel('Reduced equivalent airspeed [m/s]');
 ylabel('Equivalent elevator deflection [degree]');
 title('Reduced elevator deflection related to reduced equivalent airspeed');
 
+
 %Plot reduced elevator force curve
 figure
 plot(Vre_points_sorted,F_e_r_points_sorted,'-o')

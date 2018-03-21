@@ -59,10 +59,10 @@ alpha_2 = radtodeg(alpha (t_1:t_2));
 
 mdl = fitlm(alpha_2,CL_2,'poly1');
 
-plot(mdl)
-xlabel('angle of attack [deg]');
-ylabel('Cl');
-title('Cl-alpha');
+%plot(mdl)
+%xlabel('angle of attack [deg]');
+%ylabel('Cl');
+%title('Cl-alpha');
 CL_linreg = mdl.Fitted;
 
 
