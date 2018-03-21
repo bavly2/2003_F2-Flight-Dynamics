@@ -1,17 +1,15 @@
 % Citation 550 - Linear simulation
 a = load('FTISxprt-20180306_082856');
 
-[~,xcg] = mass_and_balance();
-
 % Stationary flight condition
 
  hp0    =  a.flightdata.Dadc1_alt.data*0.3048 ;      	  % pressure altitude in the stationary flight condition [m]
  V0     =  a.flightdata.Dadc1_tas.data*0.514444 ;     % true airspeed in the stationary flight condition [m/sec]
- alpha0 =  degtorad(a.flightdata.vane_AOA.data)   ;   % angle of attack in the stationary flight condition [rad]
- th0    =  degtorad(a.flightdata.Ahrs1_Pitch.data) ;       	  % pitch angle in the stationary flight condition [rad]
+ alpha0 =  deg2rad(a.flightdata.vane_AOA.data)   ;   % angle of attack in the stationary flight condition [rad]
+ th0    =  deg2rad(a.flightdata.Ahrs1_Pitch.data) ;       	  % pitch angle in the stationary flight condition [rad]
 % 
 % % Aircraft mass
- [m,~]      = mass_and_balance() ;         	  % mass [kg]
+ [m,xcg]      = mass_and_balance() ;         	  % mass [kg] and center of gravity [m]
 % 
 % % aerodynamic properties
 
@@ -22,8 +20,8 @@ CLa    = Cl_alpha() ;            % Slope of CL-alpha curve [ ]
 % 
 
 % % Longitudinal stability
-  [Cma, ~, ~, ~]    = Cm_alpha () ;            % longitudinal stabilty [ ]
-  Cmde   = cm_delta () ;            % elevator effectiveness [ ]
+[Cma, ~, ~, ~]    = Cm_alpha () ;            % longitudinal stabilty [ ]
+Cmde   = cm_delta () ;            % elevator effectiveness [ ]
 
 % Aircraft geometry
 

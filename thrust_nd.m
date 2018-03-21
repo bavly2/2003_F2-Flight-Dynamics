@@ -13,7 +13,7 @@ D = 686/1000 ; %propeller diameter [m]
 
 [~, Vred] = Vreducedequivalent() ;
 n = length(Tp);
-[t1, t2, t3, t4, t5, t6, t7] = tind
+[t1, t2, t3, t4, t5, t6, t7] = tind;
 V = [Vred(t1),Vred(t2),Vred(t3),Vred(t4),Vred(t5),Vred(t6),Vred(t7)];
 dTc = [];
 
