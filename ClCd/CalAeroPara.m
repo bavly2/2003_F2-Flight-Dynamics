@@ -14,9 +14,13 @@ fuel = 2600*0.45359237;
 TTmass=ZFM + fuel;
 TTW=TTmass*g0;
 
+xlsfile='Post_Flight_Datasheet_Flight_1_DD_6_3_2018.xlsx';
+sheet=1;
+
+
 %Thrust power
-FFl=[722 618 512 452 388 435]*0.45359237/3600;
-FFr=[761.5 628 538 469 415 458]*0.45359237/3600;
+FFl=xlsread(xlsfile,1,'G28:G33').'*0.45359237/3600;
+FFr=xlsread(xlsfile,1,'H28:H33').'*0.45359237/3600;
 
 %Aircraft dimensions
 S=30.; %m^2
@@ -25,11 +29,11 @@ b=15.911; %m
 A=b^2/S;
 
 %Data
-Hlsti = [13000 12990 13000 12990 12990 13080]*0.3048;
-Vcaslsti = ([250 220 191 158 128 120]-2*ones(1,6))*0.5144444;
-alphalsti = [1.5333 2.5 3.5 5.5 9 10.3];
-Wusedlsti = [458.1667 518 567 588 618 644]*0.45359237*g0;
-TATlsti = [-2.2 -4.5 -6.8 -8.8 -10.5 -11.2]+273.15*ones(1,6);
+Hlsti = xlsread(xlsfile,1,'D28:D33').'*0.3048;
+Vcaslsti = (xlsread(xlsfile,1,'E28:E33').'-2*ones(1,6))*0.5144444;
+alphalsti = xlsread(xlsfile,1,'F28:F33').';
+Wusedlsti = xlsread(xlsfile,1,'I28:I33').'*0.45359237*g0;
+TATlsti = xlsread(xlsfile,1,'J28:J33').'+273.15*ones(1,6);
 Wlsti=TTW*ones(1,6)-Wusedlsti;
 Plsti=[];
 for i=1:6
