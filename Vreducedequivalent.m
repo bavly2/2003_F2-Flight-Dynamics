@@ -1,6 +1,6 @@
 function [Vre, Ve] = Vreducedequivalent()
 %Retrieve flightdata
-flightdata = load('FTISxprt-20180306_082856.mat');
+flightdata = load('FTISxprt-20180320_102524.mat');
 flightdata = flightdata.flightdata;
 
 %Standard atmosphere values in SI units

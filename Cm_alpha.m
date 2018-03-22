@@ -7,15 +7,15 @@ rho0 = 1.225; %Sealevel air density  in Kg/m^3
 S = 30; %Wing area in m^2
 
 %Import time vector
-flightdata = load('FTISxprt-20180306_082856.mat');
+flightdata = load('FTISxprt-20180320_102524.mat');
 flightdata = flightdata.flightdata;
 
 time = flightdata.time.data;
 
 %Specify at which time stationary measurements are calculated
 hrs = [0, 0, 0, 0, 0, 0, 0]; %Dummy data
-min = [39, 41, 42, 45, 47, 48, 50]; %Dummy data
-sec = [50, 8, 25, 20, 10, 45, 8]; %Dummy data
+min = [29, 32, 34, 36, 39, 41, 43]; %Dummy data
+sec = [52, 21, 20, 38, 47, 30, 22]; %Dummy data
 total_sec = hrs*3600+min*60+sec;
 
 tind = zeros(1,length(total_sec));
@@ -31,7 +31,7 @@ end
 CmTc = -0.0064; %Dimensionless thrust arm
 Cm_delta = cm_delta(); %Elevator effectiveness 
 dTc = thrust_nd(tind); %Difference between standard thrust coefficient and trhust coefficient Tcs - Tc
-delta_e_points = [0.1 -0.4 -0.8 -1.4 0.4 0.7 1]; %Elevator deflection at measurement points in degrees
+delta_e_points = [0.5 0.1 -0.2 -0.6 0.8 1 1.2]; %Elevator deflection at measurement points in degrees
 delta_e_eq_points = delta_e_points' - CmTc/Cm_delta*(dTc'); %Reduced elevator deflection in degrees
 
 %Step 2: Retrieve reduced elevator control force
@@ -41,14 +41,14 @@ Ws = 60500; %Standard weight in N
 W = weight*g0; %Weight in N
 W_points = W(tind);
 
-F_e_points = [ 0 -16.5 -26.5 -43.5 17 41 80 ]; %Elevator control force at measurement points in N
+F_e_points = [ 2 -12 -27 -34 17 35 60 ]; %Elevator control force at measurement points in N
 
 F_e_r_points = F_e_points'.*(Ws*W_points.^-1); %Reduced elevator control force at measurement points in N
 
 %Step 3: Retrieve reduced equivalent airspeed.
-hp_points = [13250; 13600; 13900; 13890; 13180; 12890; 12430];
-TAT_points = [-9.3; -10.6; -12; -12.3; -8.35; -7.8; 6.2];
-VIAS_points = [161; 151; 141; 130.5; 171; 180.5; 190.5];
+hp_points = [6940; 7050; 7370; 7720; 6770; 6250; 5370];
+TAT_points = [-6.2; -7; -7.8; -8.5; -5; -3.5; -1.5];
+VIAS_points = [165; 155; 145; 135; 175; 184; 196];
 
 [Vre_points, ~] = Vreducedequivalent_points(hp_points, TAT_points, VIAS_points, W_points); %Reduced equivalent airspeed at measurement points in m/s
 
