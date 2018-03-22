@@ -1,4 +1,4 @@
-function [Clalpha,alpha0,Cd0,e]=CalAeroPara()
+function [Clalpha,alpha0,Cd0,e,Remin,Remax,Mmin,Mmax]=CalAeroPara()
 
 g0=9.80665;
 T0=288.15;
@@ -6,6 +6,8 @@ R=287.05;
 lmbd=-0.0065;
 p0=101325.;
 rho0=1.225;
+lambda=1.512041288;
+C=120;
 Payload = [82,95,79,71,71,71,58,78,81];
 BEM = 9165*0.45359237;
 payload = sum(Payload);
@@ -14,7 +16,7 @@ fuel = 2600*0.45359237;
 TTmass=ZFM + fuel;
 TTW=TTmass*g0;
 
-xlsfile='Post_Flight_Datasheet_Flight_1_DD_6_3_2018.xlsx';
+xlsfile='Post_Flight_Datasheet_Flight_2_DD_20_3_2018.xlsx';
 sheet=1;
 
 
@@ -125,4 +127,20 @@ disp(['Value of Cl¦Á is ', num2str(Clalpha)])
 disp(['Value of Cd0 is ', num2str(Cd0)])
 disp(['Value of e is ', num2str(e)])
 alpha0=-trendlineparaCl(2)/Clalpha;
+
+mulst=[];
+for n=1:6
+    mu=calculateviscosity(lambda,Tstatlsti(i),C);
+    mulst=[mulst,mu];
+end
+
+Relsti=[];
+for n=1:6
+    Rei=rholsti(i)*Vtaslsti(i)*cbar/mulst(i);
+    Relsti=[Relsti,Rei];
+end
+Remin=min(Relsti);
+Remax=max(Relsti);
+Mmin=min(Machlsti);
+Mmax=max(Machlsti)
 

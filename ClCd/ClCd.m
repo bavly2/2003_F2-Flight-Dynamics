@@ -1,10 +1,10 @@
 cd 'F:\TU_Delft\Third year\SVV\Assignment 2\ClCd'%Please change path
 
 %Get aerodynamic coefficients
-[Clalpha,alpha0,Cd0,e]=CalAeroPara();
+[Clalpha,alpha0,Cd0,e,Remin,Remax,Mmin,Mmax]=CalAeroPara();
 
-a = load('FTISxprt-20180306_082856');%'Need change'
-xlsfile='Post_Flight_Datasheet_Flight_1_DD_6_3_2018.xlsx';
+a = load('FTISxprt-20180320_102524');%'Need change'
+xlsfile='Post_Flight_Datasheet_Flight_2_DD_20_3_2018.xlsx';
 sheet=1;
 
 %Constants
@@ -14,7 +14,7 @@ R=287.05;
 lmbd=-0.0065;
 p0=101325.;
 rho0=1.225;
-gamma=1.512041288;
+lambda=1.512041288;
 C=120;
 Payload = xlsread(xlsfile,1,'H8:H16').';
 BEM = 9165*0.45359237;
@@ -32,16 +32,18 @@ alphalst=a.flightdata.vane_AOA.data; %{'Angle of attack'}
 Hlst=a.flightdata.Dadc1_alt.data*0.3048;%{'Pressure Altitude (1013.25 mB)'}
 Vtaslst=a.flightdata.Dadc1_tas.data*0.51444;
 Vcaslst=a.flightdata.Dadc1_cas.data*0.51444;
-Tstatlst=a.flightdata.Dadc1_sat.data.'+273.15*ones(1,lnth);
 lnth=length(Vtaslst);
+Tstatlst=a.flightdata.Dadc1_sat.data.'+273.15*ones(1,lnth);
 
 Wfuelusedlst=[];
 Wfuelused=0;
-for i=1:lnth
-    Wfuelused=Wfuelused+0.45359237*(a.flightdata.lh_engine_FU.data(i)+a.flightdata.rh_engine_FU.data(i));
-    Wfuelusedlst=[Wfuelusedlst,Wfuelused];
-end
-Wfuelusedlst=Wfuelusedlst.';
+
+%for i=1:lnth
+%    Wfuelused=Wfuelused+0.45359237*(a.flightdata.lh_engine_FU.data(i)+a.flightdata.rh_engine_FU.data(i));
+%    Wfuelusedlst=[Wfuelusedlst,Wfuelused];
+%end
+Wfuelusedlst=0.45359237*(a.flightdata.lh_engine_FU.data+a.flightdata.rh_engine_FU.data);
+Wfuelusedlst=Wfuelusedlst.'*g0;
 
 Tlst=a.flightdata.Dadc1_sat.data.'+273.15*ones(1,lnth);
 
@@ -60,27 +62,12 @@ for n=1:lnth;
     plst=[plst,p];
 end
 
-Wlst=Wi*ones(lnth,1)-Wfuelusedlst;
+Wlst=Wi*ones(1,lnth)-Wfuelusedlst;
 rholst=[];
 for n=1:lnth
-    rho=plst(i)/(R*Tstatlst(i));
+    rho=plst(n)/(R*Tstatlst(n));
     rholst=[rholst,rho];
 end
-
-mulst=[];
-for n=1:lnth
-    mu=calculateviscosity(gamma,Tstatlst(i),C);
-    mulst=[mulst,mu];
-end
-
-Relst=[];
-for n=1:lnth
-    Re=rholst(i)*Vtaslst(i)*cbar/mulst(i);
-    Relst=[Relst,Re];
-end
-
-Remax=max(Relst)
-Remin=min(Relst)
 
 %ax1 = subplot(2,2,1);
 %ax2 = subplot(2,2,2);
@@ -88,17 +75,62 @@ Remin=min(Relst)
 %ax4 = subplot(2,2,4);
 
 %plot(ax1,alphalst,Cllst)
+%grid(ax1,'on')
+%AX = gca;
+%AX.XAxisLocation = 'origin'
 %title(ax1,'Cl-alpha')
 %ylabel(ax1,'Cl')
 
-%plot(ax2,alphalst,Cdlst);
+%ax.YAxisLocation = 'origin'
+
+%plot(ax2,alphalst,Cdlst)
+%grid(ax2,'on')
+%AX.XAxisLocation = 'origin'
 %title(ax2,'Cd-alpha')
 %ylabel(ax2,'Cd')
 
 %plot(ax3,Cdlst,Cllst)
+%grid(ax3,'on')
+%AX.XAxisLocation = 'origin'
 %title(ax3,'Cl-Cd')
 %ylabel(ax3,'Cl')
 
 %plot(ax4,Cdlst,Cl2lst)
+%grid(ax4,'on')
+%AX.XAxisLocation = 'origin'
 %title(ax4,'Cl^2-Cd')
 %ylabel(ax4,'Cl^2')
+%text(0.5,0.98,[num2str(Remin),'<Re<',num2str(Remax)])
+figure
+plot(alphalst,Cllst)
+grid on
+AX = gca;
+AX.XAxisLocation = 'origin'
+AX.YAxisLocation = 'origin'
+title(['Cl-alpha, Re \in [' num2str(Remin/10^6) '\cdot 10^6,' num2str(Remax/10^6) '\cdot 10^6], Mach \in [' num2str(Mmin) ',' num2str(Mmax) ']'])
+ylabel('Cl')
+
+figure
+plot(alphalst,Cdlst)
+grid on
+AX = gca;
+AX.YAxisLocation = 'origin'
+title(['Cd-alpha, Re \in [' num2str(Remin/10^6) '\cdot 10^6,' num2str(Remax/10^6) '\cdot 10^6], Mach \in [' num2str(Mmin) ',' num2str(Mmax) ']'])
+ylabel('Cd')
+
+figure
+plot(Cdlst,Cllst)
+grid on
+AX = gca;
+AX.XAxisLocation = 'origin'
+title(['Cl-Cd, Re \in [' num2str(Remin/10^6) '\cdot 10^6,' num2str(Remax/10^6) '\cdot 10^6], Mach \in [' num2str(Mmin) ',' num2str(Mmax) ']'])
+ylabel('Cl')
+
+figure
+plot(Cdlst,Cl2lst)
+grid on
+AX = gca;
+AX.XAxisLocation = 'origin'
+format shortEng
+title(['Cl^2-Cd, Re \in [' num2str(Remin/10^6) '\cdot 10^6,' num2str(Remax/10^6) '\cdot 10^6], Mach \in [' num2str(Mmin) ',' num2str(Mmax) ']' ])
+ylabel('Cl^2')
