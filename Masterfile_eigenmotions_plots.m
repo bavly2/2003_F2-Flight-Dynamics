@@ -9,11 +9,11 @@ run('statespace2')
 t_SP = 0:0.1:10;   
 t_SP = t_SP(:,1:end-1);                         % defining SP time and removing last colum to make it compatible with u_SP
 
-t_PH = 0:0.1:250;
+t_PH = 0:0.1:200;
 t_PH = t_PH(:,1:end-1);                         % defining rest of time vectors with the same story as the above
 
 
-[x0_SP, u_SP, x0_PH, u_PH] = symmetric_eigenmotions2([55 50],10,[60 01],250);
+[x0_SP, u_SP, x0_PH, u_PH] = symmetric_eigenmotions2([50 05],10,[51 48],200);
 
 
 %------------------------------------- SHORT PERIOD MOTION -----------------------------------------------%
@@ -72,7 +72,7 @@ t_SPI = 0:0.1:50;
 t_SPI = t_SPI(:,1:end-1);
 
 
-[x0_DR, u_DR, x0_DR_YD, u_DR_YD, x0_AR, u_AR, x0_SPI, u_SPI ] = asymmetric_eigenmotions([57 02],50,[57 45],15,[59 13],25,[60 57],50);
+[x0_DR, u_DR, x0_DR_YD, u_DR_YD, x0_AR, u_AR, x0_SPI, u_SPI ] = asymmetric_eigenmotions([55 23],50,[56 26],15,[49 00],25,[58 00],50);
 
 % ------------------------------------ DUTCH ROLL --------------------------------------------------------%
 
