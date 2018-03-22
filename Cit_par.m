@@ -1,15 +1,17 @@
 % Citation 550 - Linear simulation
-a = load('FTISxprt-20180306_082856');
+a = load('FTISxprt-20180320_102524');
+
+[~,xcg] = mass_and_balance();
 
 % Stationary flight condition
 
  hp0    =  a.flightdata.Dadc1_alt.data*0.3048 ;      	  % pressure altitude in the stationary flight condition [m]
  V0     =  a.flightdata.Dadc1_tas.data*0.514444 ;     % true airspeed in the stationary flight condition [m/sec]
- alpha0 =  deg2rad(a.flightdata.vane_AOA.data)   ;   % angle of attack in the stationary flight condition [rad]
- th0    =  deg2rad(a.flightdata.Ahrs1_Pitch.data) ;       	  % pitch angle in the stationary flight condition [rad]
+ alpha0 =  degtorad(a.flightdata.vane_AOA.data)   ;   % angle of attack in the stationary flight condition [rad]
+ th0    =  degtorad(a.flightdata.Ahrs1_Pitch.data) ;       	  % pitch angle in the stationary flight condition [rad]
 % 
 % % Aircraft mass
- [m,xcg]      = mass_and_balance() ;         	  % mass [kg] and center of gravity [m]
+ [m,~]      = mass_and_balance() ;         	  % mass [kg]
 % 
 % % aerodynamic properties
 
@@ -20,8 +22,8 @@ CLa    = Cl_alpha() ;            % Slope of CL-alpha curve [ ]
 % 
 
 % % Longitudinal stability
-[Cma, ~, ~, ~]    = Cm_alpha () ;            % longitudinal stabilty [ ]
-Cmde   = cm_delta () ;            % elevator effectiveness [ ]
+  Cma    = Cm_alpha () ;            % longitudinal stabilty [ ]
+  Cmde   = cm_delta () ;            % elevator effectiveness [ ]
 
 % Aircraft geometry
 
@@ -47,7 +49,7 @@ R      = 287.05;          % specific gas constant [m^2/sec^2K]
 g      = 9.81;            % [m/sec^2] (gravity constant)
 
 rho = [];
-for n = 1:48681
+for n = 1:43611
     rho_1 = rho0*((1+(lambda*(hp0(n)/Temp0))))^(-((g/(lambda*R))+1));
     rho =[rho, rho_1];
 end
@@ -60,7 +62,7 @@ W      = m*g;                          % [N]       (aircraft weight)
 % Constant values concerning aircraft inertia
 muc =[];
 mub=[];
-for n = 1:48681
+for n = 1:43611
     muc_1    = m(n)/(rho(n)*S*c);
     mub_1    = m(n)/(rho(n)*S*b);
     muc = [muc, muc_1];
@@ -82,14 +84,33 @@ CNha   = 2*pi*Ah/(Ah+2);        % Stabiliser normal force slope [ ]
 depsda = 4/(A+2);               % Downwash gradient [ ]
 
 % Lift and drag coefficient
-[~,CL] = Cl_alpha();
-%CL = 2*W/(rho*V0^2*S);               % Lift coefficient [ ]
-%CD = CD0 + (CLa*alpha0)^2/(pi*A*e);  % Drag coefficient [ ]
+
+
+%CD = CD0 + (CLa*alpha0.)^2/(pi*A*e);  % Drag coefficient [ ]
+
+
+CD = [];
+CL = [];
+
+[Vre,~] = Vreducedequivalent();
+
+for n = 1:43661
+    CL_1 = 2*W(n)/(rho0*Vre(n)^2*S);               % Lift coefficient [ ]
+    CD_1 = CD0 + (CLa*alpha0(n))^2/(pi*A*e);
+    CL = [CL, CL_1];
+    CD = [CD, CD_1];
+   
+end
+
+CL = CL (:);
+CD = CD (:);
+
+
 
 
 % Stabiblity derivatives
 CX0 =[];
-for n = 1:48681
+for n = 1:43611
     CX0_1   = W(n)*sin(th0(n))/(0.5*rho(n)*V0(n)^2*S);
     CX0 = [CX0_1, CX0];
 end
@@ -102,9 +123,9 @@ CXq    = -0.28170;
 CXde   = -0.03728;
 
 CZ0 =[];
-for n = 1:48681
+for n = 1:43611
     CZ0_1    = -W(n)*cos(th0(n))/(0.5*rho(n)*V0(n)^2*S);
-    CZ0_1 = [CZ0_1, CZ0];
+    CZ0 = [CZ0_1, CZ0];
 end
 CZ0 = CZ0(:);
 
