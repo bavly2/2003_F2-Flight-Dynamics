@@ -12,7 +12,7 @@ Phugoid_init_time = t_init_PH;
 
 
 %Load flight test data and import parameter vectors
-flightdata = load('FTISxprt-20180306_082856.mat');
+flightdata = load('FTISxprt-20180320_102524.mat');
 flightdata = flightdata.flightdata;
 
 %Time vector in s
@@ -35,14 +35,14 @@ init_time = [Short_Period_init_time(1)*60+Short_Period_init_time(2) Phugoid_init
 %Determine index of initital time of each eigenmotion
 t_ind = [find(time>init_time(1),1) find(time>init_time(2),1)];
 
-u_hat_1 = (V(31181)-V(t_ind(1)))/V(t_ind(1));
-u_hat_2 = (V(31181)-V(t_ind(2)))/V(t_ind(2));
+u_1 = (V(5904)-V(t_ind(1)));
+u_2 = (V(5904)-V(t_ind(2)));
 
 
 %Initial values matrix. Column depicts respective eigenmotion and row the
 %parameter (Dimensionless speed, Angle of Attack, Pitch attitude, Pitch rate)
 init_values = [ 
-    u_hat_1 u_hat_2;
+    u_1 u_2;
     alpha(t_ind(1)) alpha(t_ind(2)) ;
     theta(t_ind(1)) theta(t_ind(2)) ;
     q(t_ind(1)) q(t_ind(2))
