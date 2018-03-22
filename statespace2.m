@@ -2,19 +2,19 @@
 
 run('Cit_par')
 
-V = V0(31181)*.514444444444;              % STATIONARY VELOCITY TAS >>> TO BE CHANGED FOR OWN TESTFLIGHT !!!!!!!!!!!!!!!!!! 
+V = V0(5904)*.514444444444;              % STATIONARY VELOCITY TAS >>> TO BE CHANGED FOR OWN TESTFLIGHT !!!!!!!!!!!!!!!!!! 
 
-MUC = 123.6842;                           % Assumption : change in inertia small between [55 50] & [60 4 57], hence avg. of
-MUB = 15.9893;                            % inertia was taken between these
+MUC = 93.8328;                            % Assumption : change in inertia small between [55 50] & [60 4 57], hence avg. of
+MUB = 12.1303;                            % inertia was taken between these
                                           % times
 
-CX0 = 0.0078;                             % avg. taken of CX0 column vector during eigenmotions
-CZ0 = -0.2598;                            % avg. taken of CZ0 column vector during eigenmotions
-CL = 0.4915;                              % avg. taken of CL column vector during eigenmotions
+CX0 = 0.0484;                             % avg. taken of CX0 column vector during eigenmotions
+CZ0 = -0.5382;                            % avg. taken of CZ0 column vector during eigenmotions
+CL = 0.3899;                              % avg. taken of CL column vector during eigenmotions
 
 %symmetrical motion
 
-C1s = [-2*MUC*(c/V^2),0,0,0;
+C1s = [-2*MUC*(c/(V)^2),0,0,0;
     0,(CZadot-2*MUC)*(c/V),0,0;
     0,0,-(c/V),(c/V);
     0,Cmadot*(c/V),0,-2*MUC*KY2*(c^2/(V)^2)];
