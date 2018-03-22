@@ -9,7 +9,7 @@ function [ x0_SP, u_SP, x0_PH, u_PH] = symmetric_eigenmotions2(t_init_SP, t_leng
 %Specify starting times of eigenmotions as: [mm ss]
 Short_Period_init_time = t_init_SP;
 Phugoid_init_time = t_init_PH;
-
+run('Eigenmotions_testdata')
 
 %Load flight test data and import parameter vectors
 flightdata = load('FTISxprt-20180320_102524.mat');
@@ -30,7 +30,7 @@ V = (flightdata.Dadc1_tas.data)*.51444444444444;
 
 
 %Calculate initial time of each eigenmotion in seconds
-init_time = [Short_Period_init_time(1)*60+Short_Period_init_time(2) Phugoid_init_time(1)*60+Phugoid_init_time(2)];
+init_time = [t_init_SP t_init_PH];
 
 %Determine index of initital time of each eigenmotion
 t_ind = [find(time>init_time(1),1) find(time>init_time(2),1)];

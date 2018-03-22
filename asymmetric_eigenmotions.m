@@ -5,6 +5,8 @@
 %and t_length_DR is the length of the Dutch Roll in seconds.)
 function [ x0_DR, u_DR, x0_DR_YD, u_DR_YD, x0_AR, u_AR, x0_SPI, u_SPI ] = asymmetric_eigenmotions(t_init_DR, t_length_DR, t_init_DR_YD, t_length_DR_YD, t_init_AR, t_length_AR, t_init_SPI, t_length_SPI)
 
+run('Eigenmotions_testdata')
+
 %Specify starting times of eigenmotions as: [mm ss]
 Dutch_Roll_init_time = t_init_DR;
 Dutch_Roll_YD_init_time = t_init_DR_YD;
@@ -30,7 +32,7 @@ delta_r = deg2rad(flightdata.delta_r.data);
 
 
 %Calculate initial time of each eigenmotion in seconds
-init_time = [ Dutch_Roll_init_time(1)*60+Dutch_Roll_init_time(2) Dutch_Roll_YD_init_time(1)*60+Dutch_Roll_YD_init_time(2) Aper_Roll_init_time(1)*60+Aper_Roll_init_time(2) Spiral_init_time(1)*60+Spiral_init_time(2)];
+init_time = [ t_init_DR t_init_DR_YD t_init_AR t_init_SPI];
 
 %Determine index of initital time of each eigenmotion
 t_ind = [ find(time>init_time(1),1) find(time>init_time(2),1) find(time>init_time(3),1) find(time>init_time(4),1)];

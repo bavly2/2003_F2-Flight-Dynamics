@@ -1,6 +1,6 @@
 a = load('FTISxprt-20180320_102524');
 
-t_phugoid = 150; %sec, duration of the eigenmotion
+t_phugoid = 200; %sec, duration of the eigenmotion
 t_shortp = 10;
 t_spiral = 100;
 t_Droll = 20;

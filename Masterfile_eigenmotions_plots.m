@@ -3,6 +3,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 run('statespace2')
+run('Eigenmotions_testdata')
 
 %% Symmetric eigenmotions
 
@@ -12,16 +13,23 @@ t_SP = t_SP(:,1:end-1);                         % defining SP time and removing 
 t_PH = 0:0.1:200;
 t_PH = t_PH(:,1:end-1);                         % defining rest of time vectors with the same story as the above
 
+time_phugoid = time(i_start_phugoid);
+time_shortp = time(i_start_shortp);
+time_Droll = time(i_start_Droll);
+time_DrollYD = time(i_start_DrollYD);
+time_Aroll = time(i_start_DrollYD);
+time_spiral = time(i_start_spiral);
 
-[x0_SP, u_SP, x0_PH, u_PH] = symmetric_eigenmotions2([50 05],10,[51 48],200);
+[x0_SP, u_SP, x0_PH, u_PH] = symmetric_eigenmotions2(time_shortp,10,time_phugoid,200);
 
 
 %------------------------------------- SHORT PERIOD MOTION -----------------------------------------------%
 figure
 
 subplot(2,2,1)
-lsim(syssym_u_hat,u_SP,t_SP,x0_SP)
-title('SP Dimensionless Speed')
+a = lsim(syssym_u,u_SP,t_SP,x0_SP);
+plot(t_SP,V_shortp,t_SP,a)
+title('SP u')
 
 subplot(2,2,2)
 lsim(syssym_alp,u_SP,t_SP,x0_SP)
@@ -40,8 +48,8 @@ title('SP Pitch Rate')
 figure
 
 subplot(2,2,1)
-lsim(syssym_u_hat,u_PH,t_PH,x0_PH)
-title('PH Dimensionless Speed')
+lsim(syssym_u,u_PH,t_PH,x0_PH)
+title('PH u')
 
 subplot(2,2,2)
 lsim(syssym_alp,u_PH,t_PH,x0_PH)
@@ -72,7 +80,7 @@ t_SPI = 0:0.1:50;
 t_SPI = t_SPI(:,1:end-1);
 
 
-[x0_DR, u_DR, x0_DR_YD, u_DR_YD, x0_AR, u_AR, x0_SPI, u_SPI ] = asymmetric_eigenmotions([55 23],50,[56 26],15,[49 00],25,[58 00],50);
+[x0_DR, u_DR, x0_DR_YD, u_DR_YD, x0_AR, u_AR, x0_SPI, u_SPI ] = asymmetric_eigenmotions(time_Droll,50,time_DrollYD,15,time_Aroll,25,time_spiral,50);
 
 % ------------------------------------ DUTCH ROLL --------------------------------------------------------%
 

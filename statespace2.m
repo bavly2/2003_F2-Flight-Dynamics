@@ -28,13 +28,13 @@ C3s = [CXde;CZde;0;Cmde];
 
 As = -C1s^-1*C2s;
 Bs = -C1s^-1*C3s;
-Cs_u_hat = [1,0,0,0];
+Cs_u = [1,0,0,0];
 Cs_alp = [0,1,0,0];
 Cs_th = [0,0,1,0];
 Cs_q = [0,0,0,1];
 Ds = 0;
 
-syssym_u_hat = ss(As,Bs,Cs_u_hat,Ds);
+syssym_u = ss(As,Bs,Cs_u,Ds);
 syssym_alp = ss(As,Bs,Cs_alp,Ds);
 syssym_th = ss(As,Bs,Cs_th,Ds);
 syssym_q = ss(As,Bs,Cs_q,Ds);
