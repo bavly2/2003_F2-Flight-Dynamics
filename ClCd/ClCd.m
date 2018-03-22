@@ -104,33 +104,41 @@ end
 figure
 plot(alphalst,Cllst)
 grid on
+box off
 AX = gca;
 AX.XAxisLocation = 'origin'
 AX.YAxisLocation = 'origin'
 title(['Cl-alpha, Re \in [' num2str(Remin/10^6) '\cdot 10^6,' num2str(Remax/10^6) '\cdot 10^6], Mach \in [' num2str(Mmin) ',' num2str(Mmax) ']'])
-ylabel('Cl')
+xlabel('\alpha (deg)')
+ylabel('Cl (-)')
 
 figure
 plot(alphalst,Cdlst)
 grid on
+box off
 AX = gca;
 AX.YAxisLocation = 'origin'
 title(['Cd-alpha, Re \in [' num2str(Remin/10^6) '\cdot 10^6,' num2str(Remax/10^6) '\cdot 10^6], Mach \in [' num2str(Mmin) ',' num2str(Mmax) ']'])
-ylabel('Cd')
+xlabel('\alpha (deg)')
+ylabel('Cd (-)')
 
 figure
 plot(Cdlst,Cllst)
 grid on
+box off
 AX = gca;
 AX.XAxisLocation = 'origin'
 title(['Cl-Cd, Re \in [' num2str(Remin/10^6) '\cdot 10^6,' num2str(Remax/10^6) '\cdot 10^6], Mach \in [' num2str(Mmin) ',' num2str(Mmax) ']'])
-ylabel('Cl')
+xlabel('Cd (-)')
+ylabel('Cl (-)')
 
 figure
 plot(Cdlst,Cl2lst)
 grid on
+box off
 AX = gca;
 AX.XAxisLocation = 'origin'
 format shortEng
 title(['Cl^2-Cd, Re \in [' num2str(Remin/10^6) '\cdot 10^6,' num2str(Remax/10^6) '\cdot 10^6], Mach \in [' num2str(Mmin) ',' num2str(Mmax) ']' ])
+xlabel('Cd (-)')
 ylabel('Cl^2')

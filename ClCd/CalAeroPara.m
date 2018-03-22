@@ -130,13 +130,16 @@ alpha0=-trendlineparaCl(2)/Clalpha;
 
 mulst=[];
 for n=1:6
-    mu=calculateviscosity(lambda,Tstatlsti(i),C);
+    mu=calculateviscosity(lambda,Tstatlsti(n),C);
     mulst=[mulst,mu];
 end
 
 Relsti=[];
 for n=1:6
-    Rei=rholsti(i)*Vtaslsti(i)*cbar/mulst(i);
+    Rei=rholsti(n)*Vtaslsti(n)*cbar/mulst(n);
+    %disp(rholsti(i))
+    %disp(Vtaslsti(i))
+    %disp(mulst(i))
     Relsti=[Relsti,Rei];
 end
 Remin=min(Relsti);
