@@ -73,7 +73,7 @@ for i=1:6
     Veaslsti=[Veaslsti,Veasi];
 end
 
-aeroPlsti=[]
+aeroPlsti=[];
 for i=1:6
     AeroP=aerop(rho0,Veaslsti(i),S);
     aeroPlsti=[aeroPlsti,AeroP];
@@ -99,15 +99,15 @@ ThrustRlsti=[];
 Thrustlsti=[];
 for i=1:6
     data=[Hlsti(i) Machlsti(i) deltaTlsti(i) FFl(i) FFr(i)];
-    save 'matlab.dat' data -ascii
-    system('F:\TU_Delft\Third year\SVV\Assignment 2\thrust(1).exe');
+    save 'matlab.dat' data -ascii ;
+    system('thrust.exe');
     load thrust.dat;
     ThrustLi=thrust(1);
     ThrustRi=thrust(2);
     Thrusti=ThrustLi+ThrustRi;
     ThrustLlsti=[ThrustLlsti,ThrustLi];
     ThrustRlsti=[ThrustRlsti,ThrustRi];
-    Thrustlsti=[Thrustlsti,Thrusti]
+    Thrustlsti=[Thrustlsti,Thrusti];
 end
 
 Cdlsti=[];
@@ -123,9 +123,9 @@ trendlineparaCd=polyfit(Cl2lsti,Cdlsti,1);
 Cd0=trendlineparaCd(2);
 Clalpha=trendlineparaCl(1);
 e=1/(pi*A*trendlineparaCd(1));
-disp(['Value of Cl¦Á is ', num2str(Clalpha)])
-disp(['Value of Cd0 is ', num2str(Cd0)])
-disp(['Value of e is ', num2str(e)])
+% disp(['Value of Cl¦Á is ', num2str(Clalpha)]);
+% disp(['Value of Cd0 is ', num2str(Cd0)]);
+% disp(['Value of e is ', num2str(e)]);
 alpha0=-trendlineparaCl(2)/Clalpha;
 
 mulst=[];
@@ -145,5 +145,5 @@ end
 Remin=min(Relsti);
 Remax=max(Relsti);
 Mmin=min(Machlsti);
-Mmax=max(Machlsti)
+Mmax=max(Machlsti);
 
