@@ -1,31 +1,39 @@
-% Citation 550 - Linear simulation
+% % Citation 550 - Linear simulation
 a = load('FTISxprt-20180320_102524');
 
 [~,xcg] = mass_and_balance();
-
-% Stationary flight condition
-
+% 
+% % Stationary flight condition
+% 
  hp0    =  a.flightdata.Dadc1_alt.data*0.3048 ;      	  % pressure altitude in the stationary flight condition [m]
  V0     =  a.flightdata.Dadc1_tas.data*0.514444 ;     % true airspeed in the stationary flight condition [m/sec]
- alpha0 =  degtorad(a.flightdata.vane_AOA.data)   ;   % angle of attack in the stationary flight condition [rad]
- th0    =  degtorad(a.flightdata.Ahrs1_Pitch.data) ;       	  % pitch angle in the stationary flight condition [rad]
-% 
-% % Aircraft mass
+ alpha0 =  a.flightdata.vane_AOA.data   ;   % angle of attack in the stationary flight condition [deg]
+ th0    =  a.flightdata.Ahrs1_Pitch.data ;       	  % pitch angle in the stationary flight condition [rad]
+% % 
+% % % Aircraft mass
  [m,~]      = mass_and_balance() ;         	  % mass [kg]
+% % 
+
+
+
+% % % aerodynamic properties
+cd 'ClCd' 
+ [~,~,~,e,~,~,~,~]=CalAeroPara();
+% e      = 0.8 ;            % Oswald factor [ ]
+[~,~,CD0,~,~,~,~,~]=CalAeroPara();
+%CD0 = Cd0;
+% CD0    = 0.04 ;            % Zero lift drag coefficient [ ]
+[CLa,~,~,~,~,~,~,~]=CalAeroPara();
+%CLa     = Clalpha; 
+% CLa    = Cl_alpha() ;            % Slope of CL-alpha curve [ ]
+% % 
+cd ..\..
+% % % Longitudinal stability
+cd '2003_F2-Flight-Dynamics-master'
+Cma = Cm_alpha();         % longitudinal stabilty [ ]
+Cmde   = cm_delta () ;            % elevator effectiveness [ ]
 % 
-% % aerodynamic properties
-
-%preliminary NEED TO BE UPDATED CD0 and e still missing!!!
-e      = 0.8 ;            % Oswald factor [ ]
-CD0    = 0.04 ;            % Zero lift drag coefficient [ ]
-CLa    = Cl_alpha() ;            % Slope of CL-alpha curve [ ]
-% 
-
-% % Longitudinal stability
-  Cma    = Cm_alpha () ;            % longitudinal stabilty [ ]
-  Cmde   = cm_delta () ;            % elevator effectiveness [ ]
-
-% Aircraft geometry
+% % Aircraft geometry
 
 S      = 30.00;	          % wing area [m^2]
 Sh     = 0.2*S;           % stabiliser area [m^2]
@@ -39,8 +47,8 @@ A      = b^2/S;           % wing aspect ratio [ ]
 Ah     = bh^2/Sh;         % stabilser aspect ratio [ ]
 Vh_V   = 1;		  % [ ]
 ih     = -2*pi/180;       % stabiliser angle of incidence [rad]
-
-% Constant values concerning atmosphere and gravity
+% 
+% % Constant values concerning atmosphere and gravity
 
 rho0   = 1.2250;          % air density at sea level [kg/m^3] 
 lambda = -0.0065;         % temperature gradient in ISA [K/m]
@@ -57,9 +65,9 @@ end
 rho = rho (:);                          % [kg/m^3]  (air density)
 W      = m*g;                          % [N]       (aircraft weight)
 
-
- 
-% Constant values concerning aircraft inertia
+% 
+%  
+% % Constant values concerning aircraft inertia
 muc =[];
 mub=[];
 for n = 1:43611
@@ -76,39 +84,31 @@ KZ2    = 0.042;
 KXZ    = 0.002;
 KY2    = 1.25*1.114;
 
-% Aerodynamic constants
-
+% % Aerodynamic constants
+% 
 Cmac   = 0;                     % Moment coefficient about the aerodynamic centre [ ]
 CNwa   = CLa;   		        % Wing normal force slope [ ]
 CNha   = 2*pi*Ah/(Ah+2);        % Stabiliser normal force slope [ ]
 depsda = 4/(A+2);               % Downwash gradient [ ]
 
-% Lift and drag coefficient
-
-
-%CD = CD0 + (CLa*alpha0.)^2/(pi*A*e);  % Drag coefficient [ ]
-
-
+% % Lift and drag coefficient
+% 
+% 
+% %CD = CD0 + (CLa*alpha0.)^2/(pi*A*e);  % Drag coefficient [ ]
 CD = [];
 CL = [];
-
 [Vre,~] = Vreducedequivalent();
-
 for n = 1:43661
     CL_1 = 2*W(n)/(rho0*Vre(n)^2*S);               % Lift coefficient [ ]
     CD_1 = CD0 + (CLa*alpha0(n))^2/(pi*A*e);
     CL = [CL, CL_1];
-    CD = [CD, CD_1];
-   
+    CD = [CD, CD_1];   
 end
-
 CL = CL (:);
 CD = CD (:);
 
 
-
-
-% Stabiblity derivatives
+% % Stabiblity derivatives
 CX0 =[];
 for n = 1:43611
     CX0_1   = W(n)*sin(th0(n))/(0.5*rho(n)*V0(n)^2*S);

@@ -1,4 +1,4 @@
-function [weight, cg_data] = mass_and_balance()
+function [weight, cg_data, cg_data_c] = mass_and_balance()
 
 %load flight data and save needed parameters for mass and balance
 %determination
@@ -79,10 +79,13 @@ cg_fuel = cg_fuel (:);
 %     
 % %t1 time step where cm_delta measurment procedure starts (person in seat 8 moves up
 % %to between seats 1&2)
-t1 = 27228;
+%t1 = 27228;
+
 % %t2 time step where cm_delta measurment procedure ends (person moves back
 % %to seat 8)
-t2 = 28356;
+%t2 = 28356;
+t1 = 27350;
+t2 = 28500;
 % 
 weight = [];
 cg_data= [];
@@ -109,17 +112,17 @@ end
             weight = [weight, w];
             cg = (ZFM*cg_ZFM + ((fuel-((Fuel_used_lh(n)* 0.453592)+(Fuel_used_rh(n)* 0.453592)))*cg_fuel(n)))/w - mac_LE;
             cg_data = [cg_data, cg];
-    
     end
 
 
 %cg as % of mac
-cg_data = cg_data * 100/c;
-
+cg_data_c = cg_data * 100/c;
+cg_data = cg_data + mac_LE;
 %save in list
 time = time(:);
 weight = weight (:);
 cg_data = cg_data (:);
+cg_data_c = cg_data_c (:);
 
 %plot cg shift and weight change of the ac during flight test
 % figure
