@@ -84,20 +84,16 @@ t_SPI = t_SPI(:,1:end-1);
 
 % ------------------------------------ DUTCH ROLL --------------------------------------------------------%
 
-figure
-subplot(2,2,1)
-lsimplot(sysasym_beta,u_DR,t_DR,x0_DR)
-title('DR Sideslip Angle') 
-
-subplot(2,2,2)
+figure 
+subplot(3,1,1)
 lsimplot(sysasym_phi,u_DR,t_DR,x0_DR)
 title('DR Roll Angle')
 
-subplot(2,2,3)
+subplot(3,1,2)
 lsimplot(sysasym_p,u_DR,t_DR,x0_DR)
 title('DR Roll Rate')
 
-subplot(2,2,4)
+subplot(3,1,3)
 lsimplot(sysasym_r,u_DR,t_DR,x0_DR)
 title('DR Yaw Rate')
 
@@ -105,19 +101,15 @@ title('DR Yaw Rate')
 % ------------------------------------ DUTCH ROLL YD --------------------------------------------------------%
 
 figure
-subplot(2,2,1)
-lsimplot(sysasym_beta,u_DR_YD,t_DR_YD,x0_DR_YD)
-title('DR YD Sideslip Angle') 
-
-subplot(2,2,2)
+subplot(3,1,1)
 lsimplot(sysasym_phi,u_DR_YD,t_DR_YD,x0_DR_YD)
 title('DR YD Roll Angle')
 
-subplot(2,2,3)
+subplot(3,1,2)
 lsimplot(sysasym_p,u_DR_YD,t_DR_YD,x0_DR_YD)
 title('DR YD Roll Rate')
 
-subplot(2,2,4)
+subplot(3,1,3)
 lsimplot(sysasym_r,u_DR_YD,t_DR_YD,x0_DR_YD)
 title('DR YD Yaw Rate')
 
@@ -125,20 +117,16 @@ title('DR YD Yaw Rate')
 
 % ------------------------------------ APERIODICAL ROLL --------------------------------------------------------%
 
-figure
-subplot(2,2,1)
-lsimplot(sysasym_beta,u_AR,t_AR,x0_AR)
-title('AR Sideslip Angle') 
-
-subplot(2,2,2)
+figure 
+subplot(3,1,1)
 lsimplot(sysasym_phi,u_AR,t_AR,x0_AR)
 title('AR Roll Angle')
 
-subplot(2,2,3)
+subplot(3,1,2)
 lsimplot(sysasym_p,u_AR,t_AR,x0_AR)
 title('AR Roll Rate')
 
-subplot(2,2,4)
+subplot(3,1,3)
 lsimplot(sysasym_r,u_AR,t_AR,x0_AR)
 title('AR Yaw Rate')
 
@@ -146,18 +134,14 @@ title('AR Yaw Rate')
 % ------------------------------------ SPIRAL --------------------------------------------------------%
 
 figure
-subplot(2,2,1)
-lsimplot(sysasym_beta,u_SPI,t_SPI,x0_SPI)
-title('SPI Sideslip Angle') 
-
-subplot(2,2,2)
+subplot(3,1,1)
 lsimplot(sysasym_phi,u_SPI,t_SPI,x0_SPI)
 title('SPI Roll Angle')
 
-subplot(2,2,3)
+subplot(3,1,2)
 lsimplot(sysasym_p,u_SPI,t_SPI,x0_SPI)
 title('SPI Roll Rate')
 
-subplot(2,2,4)
+subplot(3,1,3)
 lsimplot(sysasym_r,u_SPI,t_SPI,x0_SPI)
 title('SPI Yaw Rate')

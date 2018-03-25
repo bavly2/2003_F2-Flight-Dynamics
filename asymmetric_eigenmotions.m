@@ -20,15 +20,15 @@ flightdata = flightdata.flightdata;
 %Time vector in s
 time = flightdata.time.data;
 %Roll angles in rad
-phi = deg2rad(flightdata.Ahrs1_Roll.data);
+phi = flightdata.Ahrs1_Roll.data;
 %Roll rates in rad/s
-p = deg2rad(flightdata.Ahrs1_bRollRate.data);
+p = flightdata.Ahrs1_bRollRate.data;
 %Yaw rates in rad/s
-r = deg2rad(flightdata.Ahrs1_bYawRate.data);
+r = flightdata.Ahrs1_bYawRate.data;
 %Elevator deflections in rad
-delta_e = deg2rad(flightdata.delta_e.data);
+delta_e = flightdata.delta_e.data;
 %Rudder deflections in rad
-delta_r = deg2rad(flightdata.delta_r.data);
+delta_r = flightdata.delta_r.data;
 
 
 %Calculate initial time of each eigenmotion in seconds

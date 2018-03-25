@@ -18,13 +18,13 @@ flightdata = flightdata.flightdata;
 %Time vector in s
 time = flightdata.time.data;
 %Angle of attack in rad
-alpha = deg2rad(flightdata.vane_AOA.data);
+alpha = flightdata.vane_AOA.data;
 %Pitch attitude in rad/s
-theta = deg2rad(flightdata.Ahrs1_Pitch.data);
+theta = flightdata.Ahrs1_Pitch.data;
 %Pitch rates in rad/s
-q = deg2rad(flightdata.Ahrs1_bPitchRate.data);
+q = flightdata.Ahrs1_bPitchRate.data;
 %Elevator deflections in rad
-delta_e = deg2rad(flightdata.delta_e.data);
+delta_e = flightdata.delta_e.data;
 %Velocity in m/s
 V = (flightdata.Dadc1_tas.data)*.51444444444444;
 

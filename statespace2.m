@@ -58,13 +58,13 @@ C3a = [CYda,CYdr;
 
 Aa = -C1a^-1*C2a;
 Ba = -C1a^-1*C3a;
-Ca_beta = [1,0,0,0];
+% Ca_beta = [1,0,0,0];
 Ca_phi = [0,1,0,0];
 Ca_p = [0,0,1,0];
 Ca_r = [0,0,0,1];
 Da = 0;
 
-sysasym_beta = ss(Aa,Ba,Ca_beta,Da);
+% sysasym_beta = ss(Aa,Ba,Ca_beta,Da);
 sysasym_phi = ss(Aa,Ba,Ca_phi,Da);
 sysasym_p = ss(Aa,Ba,Ca_p,Da);
 sysasym_r = ss(Aa,Ba,Ca_r,Da);
