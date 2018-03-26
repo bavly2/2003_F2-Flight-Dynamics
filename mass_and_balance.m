@@ -16,7 +16,7 @@ P = [95,82,79,71,71,71,58,78,81];
 
 %determination of cg_datum under ramp_mass condition
 BEM = 4157.174;
-cg_BEM = 7.421;
+cg_BEM = 7.382;
 payload = sum(P);
 payload_arm = (P(1)*d(1)+P(2)*d(1)+P(3)*d(2)+P(4)*d(3)+P(5)*d(3)+P(6)*d(4)+P(7)*d(4)+P(8)*d(5)+P(9)*d(5))/payload;
 payload_arm_test = (P(1)*d(1)+P(2)*d(1)+P(3)*d(2)+P(4)*d(3)+P(5)*d(3)+P(6)*d(4)+P(7)*d(4)+P(8)*d(5)+P(9)*d(1))/payload;
@@ -123,20 +123,20 @@ time = time(:);
 weight = weight (:);
 cg_data = cg_data (:);
 cg_data_c = cg_data_c (:);
-
-%plot cg shift and weight change of the ac during flight test
+% 
+% %plot cg shift and weight change of the ac during flight test
 % figure
 % plot(time, weight);
-% xlabel('time step');
+% xlabel('elapsed time');
 % ylabel('aircraft weight in kg');
 % title('aircraft weight change during test flight');
 % 
 % figure
-% plot(time, cg_data);
-% xlabel('time step');
-% ylabel('X_cg as % of the mac');
+% plot(time, cg_data_c);
+% xlabel('elapsed time');
+% ylabel('X_{cg} as % of MAC');
 % title('cg shift during test flight');
-
 % 
+% % 
 % 
 % 

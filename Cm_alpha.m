@@ -65,14 +65,14 @@ CLa = Cl_alpha();
 amina0_points = Ws*(0.5*rho0*Vre_points.^2*S*CLa).^-1;
 
 [amina0_points_sorted, amina0_points_order] = sort(amina0_points);
-delta_e_eq_points_sorted_alpha = delta_e_eq_points(amina0_points_order);
-
-%figure
-%plot(amina0_points_sorted,delta_e_eq_points_sorted,'-o')
-%set(gca,'YDir','reverse')
-%xlabel('Angle of attack minus zero lift angle of attack [degree]');
-%ylabel('Reduced elevator deflection [degree]');
-%title('Reduced elevator deflection related to reduced equivalent airspeed');
+delta_e_eq_points_sorted_alpha = degtorad(delta_e_eq_points(amina0_points_order));
+% 
+% figure
+% plot(amina0_points_sorted,delta_e_eq_points_sorted,'-o')
+% set(gca,'YDir','reverse')
+% xlabel('Angle of attack minus zero lift angle of attack [degree]');
+% ylabel('Reduced elevator deflection [degree]');
+% title('Reduced elevator deflection related to reduced equivalent airspeed');
 
 %Calculate slope of reduced elevator deflection curve with angle of attack
 %and calculate longitudinal stability (C_m_alpha)
