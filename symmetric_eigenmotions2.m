@@ -35,8 +35,8 @@ init_time = [t_init_SP t_init_PH];
 %Determine index of initital time of each eigenmotion
 t_ind = [find(time>init_time(1),1) find(time>init_time(2),1)];
 
-u_1 = (V(5904)-V(t_ind(1)));
-u_2 = (V(5904)-V(t_ind(2)));
+u_1 = (V(t_ind(1))-V(5904));
+u_2 = (V(t_ind(2))-V(5904));
 
 
 %Initial values matrix. Column depicts respective eigenmotion and row the
