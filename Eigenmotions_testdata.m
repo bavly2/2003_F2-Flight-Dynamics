@@ -2,10 +2,10 @@ a = load('FTISxprt-20180320_102524');
 
 t_phugoid = 200; %sec, duration of the eigenmotion
 t_shortp = 10;
-t_spiral = 100;
+t_spiral = 50;
 t_Droll = 20;
-t_DrollYD = 20;
-t_Aroll = 9;
+t_DrollYD = 15;
+t_Aroll = 10;
 
 time = a.flightdata.time.data ; %sec
 pitchangle = a.flightdata.Ahrs1_Pitch.data ; %deg
@@ -56,7 +56,7 @@ i_start_phugoid = find(de==minde_phugoid);
 
 time_phugoid = (1:t_phugoid*10)/10;
 pitch_phugoid = pitchangle(i_start_phugoid:i_start_phugoid+t_phugoid*10-1);
-V_phugoid = TAS(i_start_phugoid:i_start_phugoid+t_phugoid*10-1);
+V_phugoid = TAS(5904)-TAS(i_start_phugoid:i_start_phugoid+t_phugoid*10-1);
 aoa_phugoid = aoa(i_start_phugoid:i_start_phugoid+t_phugoid*10-1);
 pitchrate_phugoid = pitchrate(i_start_phugoid:i_start_phugoid+t_phugoid*10-1);
 
@@ -95,7 +95,7 @@ i_start_shortp = find(de==minde_shortp);
 
 time_shortp = (1:t_shortp*10)/10;
 pitch_shortp = pitchangle(i_start_shortp:i_start_shortp+t_shortp*10-1);
-V_shortp = TAS(i_start_shortp:i_start_shortp+t_shortp*10-1);
+V_shortp = TAS(5904)-TAS(i_start_shortp:i_start_shortp+t_shortp*10-1);
 aoa_shortp = aoa(i_start_shortp:i_start_shortp+t_shortp*10-1);
 pitchrate_shortp = pitchrate(i_start_shortp:i_start_shortp+t_shortp*10-1);
 
