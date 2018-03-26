@@ -33,7 +33,7 @@ V = (flightdata.Dadc1_tas.data)*.51444444444444;
 init_time = [t_init_SP t_init_PH];
 
 %Determine index of initital time of each eigenmotion
-t_ind = [find(time>init_time(1),1) find(time>init_time(2),1)];
+t_ind = [find(time==init_time(1)) find(time==init_time(2),1)];
 
 u_1 = (V(t_ind(1))-V(5904));
 u_2 = (V(t_ind(2))-V(5904));
@@ -63,8 +63,8 @@ t_lengths = t_lengths*10;
 
 %Retrieve inputs
 %Inputs Short Period
-u_SP = [ delta_e(t_ind(1):(t_ind(1)+t_lengths(1)-1))]; 
+u_SP = [ delta_e(t_ind(1):(t_ind(1)+t_lengths(1)))]; 
 %Inputs Phugoid
-u_PH = [ delta_e(t_ind(2):(t_ind(2)+t_lengths(2)-1))];
+u_PH = [ delta_e(t_ind(2):(t_ind(2)+t_lengths(2)))];
 
     

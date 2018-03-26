@@ -4,23 +4,12 @@
 
 run('statespace2')
 run('Eigenmotions_testdata')
+run('start_index_plots')
 
 %% Symmetric eigenmotions
 
-t_SP = 0:0.1:10;   
-t_SP = t_SP(:,1:end-1);                         % defining SP time and removing last colum to make it compatible with u_SP
 
-t_PH = 0:0.1:200;
-t_PH = t_PH(:,1:end-1);                         % defining rest of time vectors with the same story as the above
-
-time_phugoid = time(i_start_phugoid);
-time_shortp = time(i_start_shortp);
-time_Droll = time(i_start_Droll);
-time_DrollYD = time(i_start_DrollYD);
-time_Aroll = time(i_start_DrollYD);
-time_spiral = time(i_start_spiral);
-
-[x0_SP, u_SP, x0_PH, u_PH] = symmetric_eigenmotions2(time_shortp,10,time_phugoid,200);
+[x0_SP, u_SP, x0_PH, u_PH] = symmetric_eigenmotions2(start_shortp,length_shortp,start_phugoid,length_phugoid);
 
 
 %------------------------------------- SHORT PERIOD MOTION -----------------------------------------------%
@@ -73,21 +62,7 @@ title('PH Pitch Rate')
 %% Assymmetric eigenmotions
 
 
-
-t_DR = 0:0.1:20;
-t_DR = t_DR(:,1:end-1);
-
-t_DR_YD = 0:0.1:15;
-t_DR_YD = t_DR_YD(:,1:end-1);
-
-t_AR = 0:0.1:10;
-t_AR = t_AR(:,1:end-1);
-
-t_SPI = 0:0.1:50;
-t_SPI = t_SPI(:,1:end-1);
-
-
-[x0_DR, u_DR, x0_DR_YD, u_DR_YD, x0_AR, u_AR, x0_SPI, u_SPI ] = asymmetric_eigenmotions(time_Droll,20,time_DrollYD,15,time_Aroll,10,time_spiral,50);
+[x0_DR, u_DR, x0_DR_YD, u_DR_YD, x0_AR, u_AR, x0_SPI, u_SPI ] = asymmetric_eigenmotions(start_Droll,length_Droll,start_DrollYD,length_DrollYD,start_Aroll,length_Aroll,start_spiral,length_spiral);
 
 % ------------------------------------ DUTCH ROLL --------------------------------------------------------%
 

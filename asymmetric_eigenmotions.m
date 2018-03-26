@@ -35,7 +35,7 @@ delta_r = flightdata.delta_r.data;
 init_time = [ t_init_DR t_init_DR_YD t_init_AR t_init_SPI];
 
 %Determine index of initital time of each eigenmotion
-t_ind = [ find(time>init_time(1),1) find(time>init_time(2),1) find(time>init_time(3),1) find(time>init_time(4),1)];
+t_ind = [ find(time==init_time(1)) find(time==init_time(2)) find(time==init_time(3)) find(time==init_time(4))];
 
 %Initial values matrix. Column depicts respective eigenmotion and row the
 %parameter (Sideslip, Roll, Roll rate, Yaw rate)
@@ -64,12 +64,12 @@ t_lengths = t_lengths*10;
 
 %Retrieve inputs
 %Inputs Dutch Roll
-u_DR = [ delta_e(t_ind(1):(t_ind(1)+t_lengths(1)-1))'; delta_r(t_ind(1):(t_ind(1)+t_lengths(1)-1))' ]; 
+u_DR = [ delta_e(t_ind(1):(t_ind(1)+t_lengths(1)))'; delta_r(t_ind(1):(t_ind(1)+t_lengths(1)))' ]; 
 %Inputs Dutch Roll YD
-u_DR_YD = [ delta_e(t_ind(2):(t_ind(2)+t_lengths(2)-1))'; delta_r(t_ind(2):(t_ind(2)+t_lengths(2)-1))' ];
+u_DR_YD = [ delta_e(t_ind(2):(t_ind(2)+t_lengths(2)))'; delta_r(t_ind(2):(t_ind(2)+t_lengths(2)))' ];
 %Inputs Aperiodic Roll
-u_AR = [ delta_e(t_ind(3):(t_ind(3)+t_lengths(3)-1))'; delta_r(t_ind(3):(t_ind(3)+t_lengths(3)-1))' ];
+u_AR = [ delta_e(t_ind(3):(t_ind(3)+t_lengths(3)))'; delta_r(t_ind(3):(t_ind(3)+t_lengths(3)))' ];
 %Inputs Spiral
-u_SPI = [ delta_e(t_ind(4):(t_ind(4)+t_lengths(4)-1))'; delta_r(t_ind(4):(t_ind(4)+t_lengths(4)-1))' ];
+u_SPI = [ delta_e(t_ind(4):(t_ind(4)+t_lengths(4)))'; delta_r(t_ind(4):(t_ind(4)+t_lengths(4)))' ];
 
      
