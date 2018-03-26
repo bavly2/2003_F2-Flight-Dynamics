@@ -80,31 +80,30 @@ t_DR = t_DR(:,1:end-1);
 t_DR_YD = 0:0.1:15;
 t_DR_YD = t_DR_YD(:,1:end-1);
 
-t_AR = 0:0.1:25;
+t_AR = 0:0.1:10;
 t_AR = t_AR(:,1:end-1);
 
 t_SPI = 0:0.1:50;
 t_SPI = t_SPI(:,1:end-1);
 
 
-[x0_DR, u_DR, x0_DR_YD, u_DR_YD, x0_AR, u_AR, x0_SPI, u_SPI ] = asymmetric_eigenmotions(time_Droll,20,time_DrollYD,15,time_Aroll,25,time_spiral,50);
+[x0_DR, u_DR, x0_DR_YD, u_DR_YD, x0_AR, u_AR, x0_SPI, u_SPI ] = asymmetric_eigenmotions(time_Droll,20,time_DrollYD,15,time_Aroll,10,time_spiral,50);
 
 % ------------------------------------ DUTCH ROLL --------------------------------------------------------%
 
 figure 
 subplot(3,1,1)
-a = lsimplot(sysasym_phi,u_DR,t_DR,x0_DR);
-size(a)
+a = lsim(sysasym_phi,u_DR,t_DR,x0_DR);
 plot(t_DR,rollangle_Droll,t_DR,a)
 title('DR Roll Angle')
 
 subplot(3,1,2)
-a = lsimplot(sysasym_p,u_DR,t_DR,x0_DR);
+a = lsim(sysasym_p,u_DR,t_DR,x0_DR);
 plot(t_DR,rollrate_Droll,t_DR,a)
 title('DR Roll Rate')
 
 subplot(3,1,3)
-a = lsimplot(sysasym_r,u_DR,t_DR,x0_DR);
+a = lsim(sysasym_r,u_DR,t_DR,x0_DR);
 plot(t_DR,yawrate_Droll,t_DR,a)
 title('DR Yaw Rate')
 
@@ -113,17 +112,17 @@ title('DR Yaw Rate')
 
 figure
 subplot(3,1,1)
-a = lsimplot(sysasym_phi,u_DR_YD,t_DR_YD,x0_DR_YD);
+a = lsim(sysasym_phi,u_DR_YD,t_DR_YD,x0_DR_YD);
 plot(t_DR_YD,rollangle_DrollYD,t_DR_YD,a)
 title('DR YD Roll Angle')
 
 subplot(3,1,2)
-a = lsimplot(sysasym_p,u_DR_YD,t_DR_YD,x0_DR_YD);
+a = lsim(sysasym_p,u_DR_YD,t_DR_YD,x0_DR_YD);
 plot(t_DR_YD,rollrate_DrollYD,t_DR_YD,a)
 title('DR YD Roll Rate')
 
 subplot(3,1,3)
-a = lsimplot(sysasym_r,u_DR_YD,t_DR_YD,x0_DR_YD);
+a = lsim(sysasym_r,u_DR_YD,t_DR_YD,x0_DR_YD);
 plot(t_DR_YD,yawrate_DrollYD,t_DR_YD,a)
 title('DR YD Yaw Rate')
 
@@ -133,17 +132,17 @@ title('DR YD Yaw Rate')
 
 figure 
 subplot(3,1,1)
-a = lsimplot(sysasym_phi,u_AR,t_AR,x0_AR);
+a = lsim(sysasym_phi,u_AR,t_AR,x0_AR);
 plot(t_AR,rollangle_Aroll,t_AR,a)
 title('AR Roll Angle')
 
 subplot(3,1,2)
-a = lsimplot(sysasym_p,u_AR,t_AR,x0_AR);
+a = lsim(sysasym_p,u_AR,t_AR,x0_AR);
 plot(t_AR,rollrate_Aroll,t_AR,a)
 title('AR Roll Rate')
 
 subplot(3,1,3)
-a = lsimplot(sysasym_r,u_AR,t_AR,x0_AR);
+a = lsim(sysasym_r,u_AR,t_AR,x0_AR);
 plot(t_AR,yawrate_Aroll,t_AR,a)
 title('AR Yaw Rate')
 
@@ -152,16 +151,16 @@ title('AR Yaw Rate')
 
 figure
 subplot(3,1,1)
-a = lsimplot(sysasym_phi,u_SPI,t_SPI,x0_SPI);
-plot(t_SPI,rollangle_spiral,t_API,a)
+a = lsim(sysasym_phi,u_SPI,t_SPI,x0_SPI);
+plot(t_SPI,rollangle_spiral,t_SPI,a)
 title('SPI Roll Angle')
 
 subplot(3,1,2)
-a = lsimplot(sysasym_p,u_SPI,t_SPI,x0_SPI);
-plot(t_SPI,rollrate_spiral,t_API,a)
+a = lsim(sysasym_p,u_SPI,t_SPI,x0_SPI);
+plot(t_SPI,rollrate_spiral,t_SPI,a)
 title('SPI Roll Rate')
 
 subplot(3,1,3)
-a = lsimplot(sysasym_r,u_SPI,t_SPI,x0_SPI);
-plot(t_SPI,yawrate_spiral,t_API,a)
+a = lsim(sysasym_r,u_SPI,t_SPI,x0_SPI);
+plot(t_SPI,yawrate_spiral,t_SPI,a)
 title('SPI Yaw Rate')
